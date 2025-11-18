@@ -42,7 +42,7 @@ const AccountCard = ({ account, isSelected, onClick }) => {
       </div>
       
       <div className="account-card-body">
-        <p className="account-number">****{account.account_number.slice(-4)}</p>
+        <p className="account-number">{account.account_number}</p>
         <h3 className="account-balance">
           ${parseFloat(account.balance).toFixed(2)}
           <span className="currency">{account.currency}</span>
