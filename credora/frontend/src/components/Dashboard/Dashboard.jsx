@@ -30,7 +30,7 @@ const Dashboard = () => {
       setLoading(true);
 
       // Fetch accounts
-      const accountsResponse = await api.get('/accounts');
+      const accountsResponse = await api.get('/accounts?fresh=true');
       if (accountsResponse.data.success) {
         setAccounts(accountsResponse.data.data);
         if (accountsResponse.data.data.length > 0) {

@@ -7,17 +7,23 @@ const getUserAccounts = async (req, res, next) => {
   try {
     const userId = req.user.userId;
 
-    // Try cache first
-    const cachedAccounts = await cacheService.getCachedUserAccounts(userId);
-    if (cachedAccounts) {
-      return res.status(200).json({
-        success: true,
-        data: cachedAccounts,
-        cached: true
-      });
+    // If frontend sends ?fresh=true → skip cache
+    const forceFresh = req.query.fresh === 'true';
+
+    // Try cache ONLY if fresh is not requested
+    if (!forceFresh) {
+      const cachedAccounts = await cacheService.getCachedUserAccounts(userId);
+
+      if (cachedAccounts) {
+        return res.status(200).json({
+          success: true,
+          data: cachedAccounts,
+          cached: true
+        });
+      }
     }
 
-    // Query database
+    // Query database for updated data
     const result = await query(
       `SELECT id, account_number, account_type, balance, currency, status, created_at
        FROM accounts
@@ -26,16 +32,21 @@ const getUserAccounts = async (req, res, next) => {
       [userId]
     );
 
-    // Cache the result
-    await cacheService.cacheUserAccounts(userId, result.rows);
+    const accounts = result.rows;
+
+    // Cache the new result (unless fresh fetch was forced)
+    if (!forceFresh) {
+      await cacheService.cacheUserAccounts(userId, accounts);
+    }
 
     res.status(200).json({
       success: true,
-      data: result.rows
+      data: accounts,
+      cached: false
     });
 
   } catch (error) {
-    logger.error('Get accounts error:', error);
+    logger.error('GetUserAccounts error:', error);
     next(error);
   }
 };

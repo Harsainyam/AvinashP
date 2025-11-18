@@ -4,7 +4,7 @@ const cacheService = require('../services/cacheService');
 const logger = require('../utils/logger');
 const { getDB } = require('../config/mongodb');
 
-// Create Transaction (Transfer)
+// Create Transaction (Transfer) - OPTIMIZED VERSION
 const createTransaction = async (req, res, next) => {
   try {
     const { fromAccountId, toAccountNumber, amount, description } = req.body;
@@ -18,11 +18,17 @@ const createTransaction = async (req, res, next) => {
       });
     }
 
+    // Generate reference number upfront
+    const referenceNumber = 'TXN' + Date.now() + Math.random().toString(36).substring(2, 9).toUpperCase();
+
     // Perform transaction in database transaction
     const result = await transaction(async (client) => {
-      // Verify from account belongs to user
+      // OPTIMIZED: Single query to verify from account with row lock
       const fromAccountResult = await client.query(
-        'SELECT id, balance, account_number FROM accounts WHERE id = $1 AND user_id = $2',
+        `SELECT id, balance, account_number, user_id 
+         FROM accounts 
+         WHERE id = $1 AND user_id = $2 AND status = 'active'
+         FOR UPDATE`, // Row-level lock to prevent race conditions
         [fromAccountId, userId]
       );
 
@@ -37,9 +43,12 @@ const createTransaction = async (req, res, next) => {
         throw new Error('Insufficient balance');
       }
 
-      // Get destination account
+      // OPTIMIZED: Get destination account with row lock
       const toAccountResult = await client.query(
-        'SELECT id, account_number FROM accounts WHERE account_number = $1',
+        `SELECT id, account_number, user_id 
+         FROM accounts 
+         WHERE account_number = $1 AND status = 'active'
+         FOR UPDATE`,
         [toAccountNumber]
       );
 
@@ -54,99 +63,127 @@ const createTransaction = async (req, res, next) => {
         throw new Error('Cannot transfer to the same account');
       }
 
-      // Deduct from source account
-      await client.query(
-        'UPDATE accounts SET balance = balance - $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2',
-        [amount, fromAccount.id]
-      );
+      // Calculate new balance
+      const balanceAfter = parseFloat(fromAccount.balance) - parseFloat(amount);
 
-      // Add to destination account
+      // OPTIMIZED: Batch update both accounts in single query
       await client.query(
-        'UPDATE accounts SET balance = balance + $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2',
-        [amount, toAccount.id]
+        `UPDATE accounts 
+         SET balance = CASE 
+           WHEN id = $1 THEN balance - $3
+           WHEN id = $2 THEN balance + $3
+         END,
+         updated_at = CURRENT_TIMESTAMP
+         WHERE id IN ($1, $2)`,
+        [fromAccount.id, toAccount.id, amount]
       );
-
-      // Get updated balance
-      const updatedBalanceResult = await client.query(
-        'SELECT balance FROM accounts WHERE id = $1',
-        [fromAccount.id]
-      );
-      const balanceAfter = updatedBalanceResult.rows[0].balance;
 
       // Create transaction record
-      const referenceNumber = 'TXN' + Date.now() + Math.random().toString(36).substring(2, 9).toUpperCase();
-      
       const transactionResult = await client.query(
-        `INSERT INTO transactions (from_account_id, to_account_id, transaction_type, amount, 
-         status, description, reference_number, balance_after)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-         RETURNING *`,
-        [fromAccount.id, toAccount.id, 'transfer', amount, 'completed', description, referenceNumber, balanceAfter]
+        `INSERT INTO transactions (
+           from_account_id, to_account_id, transaction_type, amount, 
+           status, description, reference_number, balance_after
+         )
+         VALUES ($1, $2, 'transfer', $3, 'completed', $4, $5, $6)
+         RETURNING id, created_at`,
+        [fromAccount.id, toAccount.id, amount, description, referenceNumber, balanceAfter]
       );
 
       return {
-        transaction: transactionResult.rows[0],
+        transactionId: transactionResult.rows[0].id,
+        createdAt: transactionResult.rows[0].created_at,
         fromAccountNumber: fromAccount.account_number,
-        toAccountNumber: toAccount.account_number
+        toAccountNumber: toAccount.account_number,
+        balanceAfter,
+        toUserId: toAccount.user_id
       };
     });
 
-    // Invalidate cache
-    await cacheService.invalidateUserCache(userId);
-
-    // Log to MongoDB
-    const db = getDB();
-    await db.collection('logs').insertOne({
-      userId,
-      action: 'transfer',
-      ipAddress: req.ip,
-      userAgent: req.get('user-agent'),
-      status: 'success',
-      metadata: {
-        amount,
-        fromAccount: result.fromAccountNumber,
-        toAccount: result.toAccountNumber,
-        referenceNumber: result.transaction.reference_number
-      },
-      timestamp: new Date()
-    });
-
-    // Emit socket event for real-time notification
-    const io = req.app.get('io');
-    io.to(userId).emit('transaction', {
-      type: 'transfer',
-      amount,
-      status: 'completed',
-      referenceNumber: result.transaction.reference_number,
-      timestamp: new Date()
-    });
-
+    // Send response immediately (don't wait for cache/logs)
     res.status(201).json({
       success: true,
-      message: 'Transaction completed successfully',
+      message: 'Transfer completed successfully',
       data: {
-        referenceNumber: result.transaction.reference_number,
+        referenceNumber,
         amount,
-        balanceAfter: result.transaction.balance_after,
-        timestamp: result.transaction.created_at
+        balanceAfter: result.balanceAfter,
+        timestamp: result.createdAt
+      }
+    });
+
+    // Async operations after response (non-blocking)
+    setImmediate(async () => {
+      try {
+        // Invalidate cache for both users
+        await Promise.all([
+          cacheService.invalidateUserCache(userId),
+          cacheService.invalidateUserCache(result.toUserId)
+        ]);
+
+        // Log to MongoDB
+        const db = getDB();
+        await db.collection('logs').insertOne({
+          userId,
+          action: 'transfer',
+          ipAddress: req.ip,
+          userAgent: req.get('user-agent'),
+          status: 'success',
+          metadata: {
+            amount,
+            fromAccount: result.fromAccountNumber,
+            toAccount: result.toAccountNumber,
+            referenceNumber
+          },
+          timestamp: new Date()
+        });
+
+        // Emit socket events
+        const io = req.app.get('io');
+        if (io) {
+          // Notify sender
+          io.to(userId).emit('transaction', {
+            type: 'transfer_sent',
+            amount,
+            status: 'completed',
+            referenceNumber,
+            timestamp: new Date()
+          });
+
+          // Notify receiver
+          io.to(result.toUserId).emit('transaction', {
+            type: 'transfer_received',
+            amount,
+            status: 'completed',
+            referenceNumber,
+            timestamp: new Date()
+          });
+        }
+      } catch (error) {
+        logger.error('Post-transaction operations error:', error);
       }
     });
 
   } catch (error) {
     logger.error('Transaction error:', error);
     
-    // Log failed transaction
-    const db = getDB();
-    await db.collection('logs').insertOne({
-      userId: req.user.userId,
-      action: 'transfer',
-      ipAddress: req.ip,
-      userAgent: req.get('user-agent'),
-      status: 'failed',
-      metadata: {
-        error: error.message
-      },
-      timestamp: new Date()
+    // Log failed transaction asynchronously
+    setImmediate(async () => {
+      try {
+        const db = getDB();
+        await db.collection('logs').insertOne({
+          userId: req.user.userId,
+          action: 'transfer',
+          ipAddress: req.ip,
+          userAgent: req.get('user-agent'),
+          status: 'failed',
+          metadata: {
+            error: error.message
+          },
+          timestamp: new Date()
+        });
+      } catch (logError) {
+        logger.error('Failed to log error:', logError);
+      }
     });
 
     return res.status(400).json({
@@ -156,7 +193,7 @@ const createTransaction = async (req, res, next) => {
   }
 };
 
-// Get Transaction History
+// Get Transaction History - OPTIMIZED VERSION
 const getTransactionHistory = async (req, res, next) => {
   try {
     const userId = req.user.userId;
@@ -174,15 +211,35 @@ const getTransactionHistory = async (req, res, next) => {
       });
     }
 
+    // OPTIMIZED: Single query with EXPLAIN ANALYZE friendly structure
     let queryText = `
-      SELECT t.id, t.transaction_type, t.amount, t.currency, t.status, 
-             t.description, t.reference_number, t.balance_after, t.created_at,
-             fa.account_number as from_account_number,
-             ta.account_number as to_account_number
+      SELECT 
+        t.id, 
+        t.transaction_type, 
+        t.amount, 
+        t.currency, 
+        t.status, 
+        t.description, 
+        t.reference_number, 
+        t.balance_after, 
+        t.created_at,
+        CASE 
+          WHEN t.from_account_id IN (SELECT id FROM accounts WHERE user_id = $1)
+          THEN fa.account_number
+          ELSE NULL
+        END as from_account_number,
+        CASE 
+          WHEN t.to_account_id IN (SELECT id FROM accounts WHERE user_id = $1)
+          THEN ta.account_number
+          ELSE NULL
+        END as to_account_number
       FROM transactions t
       LEFT JOIN accounts fa ON t.from_account_id = fa.id
       LEFT JOIN accounts ta ON t.to_account_id = ta.id
-      WHERE (fa.user_id = $1 OR ta.user_id = $1)
+      WHERE (
+        t.from_account_id IN (SELECT id FROM accounts WHERE user_id = $1)
+        OR t.to_account_id IN (SELECT id FROM accounts WHERE user_id = $1)
+      )
     `;
 
     const params = [userId];
@@ -201,12 +258,18 @@ const getTransactionHistory = async (req, res, next) => {
     }
 
     queryText += ` ORDER BY t.created_at DESC LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
-    params.push(limit, offset);
+    params.push(parseInt(limit), parseInt(offset));
 
     const result = await query(queryText, params);
 
-    // Cache the result
-    await cacheService.setEx(cacheKey, result.rows, 300); // 5 minutes TTL
+    // Cache the result asynchronously
+    setImmediate(async () => {
+      try {
+        await cacheService.setEx(cacheKey, result.rows, 300); // 5 minutes TTL
+      } catch (error) {
+        logger.error('Cache set error:', error);
+      }
+    });
 
     res.status(200).json({
       success: true,
