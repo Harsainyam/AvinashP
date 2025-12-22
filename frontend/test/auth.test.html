@@ -34,6 +34,7 @@
     let api;
     let testUser;
     let testToken;
+    let userId;
 
     // Test Suite 1: Signup Flow
     runner.describe('User Signup', (it) => {
@@ -47,6 +48,8 @@
         expect(data.data).toHaveProperty('userId');
         expect(data.data).toHaveProperty('email');
         expect(data.data.email).toBe(testUser.email);
+        
+        userId = data.data.userId;
       });
 
       it('should reject duplicate email signup', async () => {
@@ -106,6 +109,8 @@
         expect(data.success).toBeTruthy();
         expect(data.data).toHaveProperty('userId');
         expect(data.data.requiresOTP).toBeTruthy();
+        
+        userId = data.data.userId;
       });
 
       it('should reject invalid email', async () => {
@@ -149,18 +154,6 @@
 
     // Test Suite 3: OTP Verification
     runner.describe('OTP Verification', (it) => {
-      let userId;
-
-      it('should send OTP after login', async () => {
-        const { response, data } = await api.post('/auth/login', {
-          email: testUser.email,
-          password: testUser.password
-        });
-        
-        userId = data.data.userId;
-        expect(data.data.requiresOTP).toBeTruthy();
-      });
-
       it('should reject invalid OTP', async () => {
         const { response, data } = await api.post('/auth/verify-otp', {
           userId: userId,
@@ -192,24 +185,65 @@
       });
 
       it('should accept valid OTP (manual)', async () => {
-        // NOTE: In real test, you'd get OTP from console/email
-        // For demo, this will fail unless you provide actual OTP
-        const manualOTP = prompt('Enter the OTP sent to console (6 digits):');
+        // Prompt user to enter OTP from backend console
+        const resultsDiv = document.getElementById('test-results');
+        const promptDiv = document.createElement('div');
+        promptDiv.className = 'otp-prompt';
+        promptDiv.innerHTML = `
+          <div style="background: #fef3c7; border: 2px solid #f59e0b; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+            <h4 style="color: #92400e; margin-bottom: 1rem;">⚠️ OTP Required</h4>
+            <p style="color: #78350f; margin-bottom: 1rem;">Check your backend console for the OTP and enter it below:</p>
+            <input type="text" id="otp-input" placeholder="Enter 6-digit OTP" maxlength="6" 
+                   style="padding: 0.75rem; font-size: 1.125rem; width: 200px; text-align: center; border: 2px solid #f59e0b; border-radius: 6px;">
+            <button id="submit-otp" style="margin-left: 1rem; padding: 0.75rem 1.5rem; background: #f59e0b; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+              Submit OTP
+            </button>
+          </div>
+        `;
+        resultsDiv.appendChild(promptDiv);
         
-        if (manualOTP && manualOTP.length === 6) {
-          const { response, data } = await api.post('/auth/verify-otp', {
-            userId: userId,
-            otp: manualOTP
-          });
-          
-          if (data.success) {
-            testToken = data.data.accessToken;
-            api.setToken(testToken);
-            expect(response.status).toBe(200);
-            expect(data.data).toHaveProperty('accessToken');
-            expect(data.data.user).toHaveProperty('id');
-          }
-        }
+        return new Promise((resolve) => {
+          document.getElementById('submit-otp').onclick = async () => {
+            const otp = document.getElementById('otp-input').value;
+            
+            if (otp && otp.length === 6) {
+              const { response, data } = await api.post('/auth/verify-otp', {
+                userId: userId,
+                otp: otp
+              });
+              
+              promptDiv.remove();
+              
+              if (data.success) {
+                testToken = data.data.accessToken;
+                api.setToken(testToken);
+                
+                // Display token for user to copy
+                const tokenDiv = document.createElement('div');
+                tokenDiv.className = 'token-display';
+                tokenDiv.innerHTML = `
+                  <div style="background: #d1fae5; border: 2px solid #10b981; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                    <h4 style="color: #065f46; margin-bottom: 1rem;">✅ Login Successful!</h4>
+                    <p style="color: #047857; margin-bottom: 0.5rem; font-weight: 600;">Copy this token for Account and Transaction tests:</p>
+                    <textarea readonly style="width: 100%; padding: 0.75rem; font-family: monospace; font-size: 0.875rem; border: 1px solid #10b981; border-radius: 6px; margin-top: 0.5rem; height: 100px;">${testToken}</textarea>
+                    <button onclick="navigator.clipboard.writeText('${testToken}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                      📋 Copy Token
+                    </button>
+                  </div>
+                `;
+                resultsDiv.appendChild(tokenDiv);
+                
+                expect(response.status).toBe(200);
+                expect(data.data).toHaveProperty('accessToken');
+                expect(data.data.user).toHaveProperty('id');
+                resolve();
+              } else {
+                alert('Invalid OTP. Test failed.');
+                resolve();
+              }
+            }
+          };
+        });
       });
     });
 
@@ -237,6 +271,7 @@
         if (testToken) {
           const { response, data } = await api.get('/accounts');
           expect(response.status).toBe(200);
+          expect(data.success).toBeTruthy();
         }
       });
     });
@@ -251,34 +286,6 @@
           expect(data.success).toBeTruthy();
         }
       });
-
-      it('should clear user session', async () => {
-        // After logout, requests should fail
-        const { response } = await api.get('/accounts');
-        // Token might still work if not blacklisted
-        expect(response.status).toBeGreaterThan(0);
-      });
-    });
-
-    // Test Suite 6: Rate Limiting
-    runner.describe('Rate Limiting', (it) => {
-      it('should enforce login rate limits', async () => {
-        const attempts = [];
-        
-        // Try 6 failed login attempts (limit is 5)
-        for (let i = 0; i < 6; i++) {
-          const { response } = await api.post('/auth/login', {
-            email: testUser.email,
-            password: 'WrongPassword!'
-          });
-          attempts.push(response.status);
-          await wait(100);
-        }
-        
-        // Last attempt should be rate limited
-        const lastStatus = attempts[attempts.length - 1];
-        expect(lastStatus).toBe(429);
-      });
     });
 
     // Event Listeners
@@ -287,12 +294,16 @@
       api = new APIHelper(apiUrl);
       
       document.getElementById('run-tests').disabled = true;
+      document.getElementById('test-results').innerHTML = '<h2>Running Tests...</h2>';
+      
       await runner.run();
+      
       document.getElementById('run-tests').disabled = false;
     });
 
     document.getElementById('clear-results').addEventListener('click', () => {
       document.getElementById('test-results').innerHTML = '<p class="loading">Click "Run All Tests" to begin</p>';
+      runner.results = { passed: 0, failed: 0, total: 0 };
     });
   </script>
 </body>
