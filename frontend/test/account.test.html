@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Integration Tests - Credora</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-header">
+      <h1>🏦 Account Integration Tests</h1>
+      <p>Testing account management and balance operations</p>
+    </div>
+
+    <div class="test-controls">
+      <button id="run-tests">Run All Tests</button>
+      <button id="clear-results">Clear Results</button>
+      
+      <div class="config-section">
+        <label for="api-url">API URL:</label>
+        <input type="text" id="api-url" value="http://localhost:5000/api">
+      </div>
+      
+      <div class="config-section">
+        <label for="test-token">Access Token:</label>
+        <input type="text" id="test-token" placeholder="Paste your token here">
+      </div>
+    </div>
+
+    <div id="test-results">
+      <p class="loading">Click "Run All Tests" to begin</p>
+    </div>
+  </div>
+
+  <script src="test-helpers.js"></script>
+  <script>
+    const runner = new TestRunner();
+    let api;
+    let testAccounts = [];
+
+    // Test Suite 1: Get User Accounts
+    runner.describe('Get User Accounts', (it) => {
+      it('should retrieve user accounts', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        expect(response.status).toBe(200);
+        expect(data.success).toBeTruthy();
+        expect(Array.isArray(data.data)).toBeTruthy();
+        
+        testAccounts = data.data;
+      });
+
+      it('should return account details', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        if (data.data.length > 0) {
+          const account = data.data[0];
+          expect(account).toHaveProperty('id');
+          expect(account).toHaveProperty('account_number');
+          expect(account).toHaveProperty('account_type');
+          expect(account).toHaveProperty('balance');
+          expect(account).toHaveProperty('currency');
+          expect(account).toHaveProperty('status');
+        }
+      });
+
+      it('should only show active accounts', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          expect(account.status).toBe('active');
+        });
+      });
+
+      it('should use cache for repeated requests', async () => {
+        const start1 = Date.now();
+        await api.get('/accounts');
+        const time1 = Date.now() - start1;
+        
+        const start2 = Date.now();
+        const { data } = await api.get('/accounts');
+        const time2 = Date.now() - start2;
+        
+        // Second request should be faster (cached)
+        expect(data.cached).toBeTruthy();
+      });
+
+      it('should bypass cache with fresh parameter', async () => {
+        const { response, data } = await api.get('/accounts?fresh=true');
+        
+        expect(response.status).toBe(200);
+        expect(data.cached).toBeFalsy();
+      });
+    });
+
+    // Test Suite 2: Get Specific Account
+    runner.describe('Get Account Details', (it) => {
+      let accountId;
+
+      it('should get specific account by ID', async () => {
+        if (testAccounts.length > 0) {
+          accountId = testAccounts[0].id;
+          const { response, data } = await api.get(`/accounts/${accountId}`);
+          
+          expect(response.status).toBe(200);
+          expect(data.success).toBeTruthy();
+          expect(data.data.id).toBe(accountId);
+        }
+      });
+
+      it('should include user information', async () => {
+        if (testAccounts.length > 0) {
+          accountId = testAccounts[0].id;
+          const { response, data } = await api.get(`/accounts/${accountId}`);
+          
+          expect(data.data).toHaveProperty('first_name');
+          expect(data.data).toHaveProperty('last_name');
+          expect(data.data).toHaveProperty('email');
+        }
+      });
+
+      it('should reject invalid account ID', async () => {
+        const { response, data } = await api.get('/accounts/invalid-uuid');
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should reject non-existent account', async () => {
+        const fakeUUID = '00000000-0000-0000-0000-000000000000';
+        const { response, data } = await api.get(`/accounts/${fakeUUID}`);
+        
+        expect(response.status).toBe(404);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should only show user own accounts', async () => {
+        // Trying to access account from different user should fail
+        if (testAccounts.length > 0) {
+          const { response, data } = await api.get(`/accounts/${testAccounts[0].id}`);
+          expect(response.status).toBe(200);
+        }
+      });
+    });
+
+    // Test Suite 3: Get Account Balance
+    runner.describe('Get Account Balance', (it) => {
+      let accountId;
+
+      it('should get account balance', async () => {
+        if (testAccounts.length > 0) {
+          accountId = testAccounts[0].id;
+          const { response, data } = await api.get(`/accounts/${accountId}/balance`);
+          
+          expect(response.status).toBe(200);
+          expect(data.success).toBeTruthy();
+          expect(data.data).toHaveProperty('balance');
+          expect(data.data).toHaveProperty('currency');
+          expect(data.data).toHaveProperty('account_number');
+        }
+      });
+
+      it('should return numeric balance', async () => {
+        if (testAccounts.length > 0) {
+          accountId = testAccounts[0].id;
+          const { response, data } = await api.get(`/accounts/${accountId}/balance`);
+          
+          const balance = parseFloat(data.data.balance);
+          expect(typeof balance).toBe('number');
+          expect(balance).toBeGreaterThan(0);
+        }
+      });
+
+      it('should reject invalid account for balance', async () => {
+        const fakeUUID = '00000000-0000-0000-0000-000000000000';
+        const { response, data } = await api.get(`/accounts/${fakeUUID}/balance`);
+        
+        expect(response.status).toBe(404);
+        expect(data.success).toBeFalsy();
+      });
+    });
+
+    // Test Suite 4: Account Types
+    runner.describe('Account Types', (it) => {
+      it('should support different account types', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        const accountTypes = data.data.map(acc => acc.account_type);
+        const validTypes = ['savings', 'checking', 'business'];
+        
+        accountTypes.forEach(type => {
+          expect(validTypes).toContain(type);
+        });
+      });
+
+      it('should have savings account by default', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        const hasSavings = data.data.some(acc => acc.account_type === 'savings');
+        expect(hasSavings).toBeTruthy();
+      });
+    });
+
+    // Test Suite 5: Account Security
+    runner.describe('Account Security', (it) => {
+      it('should require authentication', async () => {
+        const noAuthAPI = new APIHelper(api.baseURL);
+        const { response, data } = await noAuthAPI.get('/accounts');
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should validate token format', async () => {
+        const invalidAPI = new APIHelper(api.baseURL);
+        invalidAPI.setToken('invalid-token');
+        
+        const { response, data } = await invalidAPI.get('/accounts');
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should not expose sensitive data', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          // Should not expose password_hash, etc.
+          expect(account).not.toHaveProperty('password_hash');
+          expect(account).not.toHaveProperty('password');
+        });
+      });
+    });
+
+    // Test Suite 6: Data Validation
+    runner.describe('Data Validation', (it) => {
+      it('should have valid account numbers', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          expect(account.account_number.length).toBeGreaterThan(9);
+          expect(/^\d+$/.test(account.account_number)).toBeTruthy();
+        });
+      });
+
+      it('should have valid currency codes', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          expect(account.currency).toBe('USD');
+          expect(account.currency.length).toBe(3);
+        });
+      });
+
+      it('should have non-negative balances', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          const balance = parseFloat(account.balance);
+          expect(balance).toBeGreaterThan(0);
+        });
+      });
+
+      it('should have valid timestamps', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          const createdAt = new Date(account.created_at);
+          expect(createdAt instanceof Date).toBeTruthy();
+          expect(!isNaN(createdAt.getTime())).toBeTruthy();
+        });
+      });
+    });
+
+    // Event Listeners
+    document.getElementById('run-tests').addEventListener('click', async () => {
+      const apiUrl = document.getElementById('api-url').value;
+      const token = document.getElementById('test-token').value;
+      
+      if (!token) {
+        alert('Please provide an access token first!');
+        return;
+      }
+      
+      api = new APIHelper(apiUrl);
+      api.setToken(token);
+      
+      document.getElementById('run-tests').disabled = true;
+      await runner.run();
+      document.getElementById('run-tests').disabled = false;
+    });
+
+    document.getElementById('clear-results').addEventListener('click', () => {
+      document.getElementById('test-results').innerHTML = '<p class="loading">Click "Run All Tests" to begin</p>';
+    });
+  </script>
+</body>
+</html>

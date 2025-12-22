@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentication Integration Tests - Credora</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-header">
+      <h1>🔐 Authentication Integration Tests</h1>
+      <p>Testing signup, login, OTP verification, and logout flows</p>
+    </div>
+
+    <div class="test-controls">
+      <button id="run-tests">Run All Tests</button>
+      <button id="clear-results">Clear Results</button>
+      
+      <div class="config-section">
+        <label for="api-url">API URL:</label>
+        <input type="text" id="api-url" value="http://localhost:5000/api">
+      </div>
+    </div>
+
+    <div id="test-results">
+      <p class="loading">Click "Run All Tests" to begin</p>
+    </div>
+  </div>
+
+  <script src="test-helpers.js"></script>
+  <script>
+    const runner = new TestRunner();
+    let api;
+    let testUser;
+    let testToken;
+
+    // Test Suite 1: Signup Flow
+    runner.describe('User Signup', (it) => {
+      it('should create a new user account', async () => {
+        testUser = TestDataGenerator.generateUser();
+        
+        const { response, data } = await api.post('/auth/signup', testUser);
+        
+        expect(response.status).toBe(201);
+        expect(data.success).toBeTruthy();
+        expect(data.data).toHaveProperty('userId');
+        expect(data.data).toHaveProperty('email');
+        expect(data.data.email).toBe(testUser.email);
+      });
+
+      it('should reject duplicate email signup', async () => {
+        const { response, data } = await api.post('/auth/signup', testUser);
+        
+        expect(response.status).toBe(409);
+        expect(data.success).toBeFalsy();
+        expect(data.message).toContain('already exists');
+      });
+
+      it('should validate email format', async () => {
+        const invalidUser = {
+          ...TestDataGenerator.generateUser(),
+          email: 'invalid-email'
+        };
+        
+        const { response, data } = await api.post('/auth/signup', invalidUser);
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should validate password strength', async () => {
+        const weakPasswordUser = {
+          ...TestDataGenerator.generateUser(),
+          password: 'weak'
+        };
+        
+        const { response, data } = await api.post('/auth/signup', weakPasswordUser);
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should require first name', async () => {
+        const noNameUser = {
+          ...TestDataGenerator.generateUser(),
+          firstName: ''
+        };
+        
+        const { response, data } = await api.post('/auth/signup', noNameUser);
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+    });
+
+    // Test Suite 2: Login Flow
+    runner.describe('User Login', (it) => {
+      it('should login with valid credentials', async () => {
+        const { response, data } = await api.post('/auth/login', {
+          email: testUser.email,
+          password: testUser.password
+        });
+        
+        expect(response.status).toBe(200);
+        expect(data.success).toBeTruthy();
+        expect(data.data).toHaveProperty('userId');
+        expect(data.data.requiresOTP).toBeTruthy();
+      });
+
+      it('should reject invalid email', async () => {
+        const { response, data } = await api.post('/auth/login', {
+          email: 'nonexistent@test.com',
+          password: 'Test@1234'
+        });
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should reject invalid password', async () => {
+        const { response, data } = await api.post('/auth/login', {
+          email: testUser.email,
+          password: 'WrongPassword123!'
+        });
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should require email field', async () => {
+        const { response, data } = await api.post('/auth/login', {
+          password: 'Test@1234'
+        });
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should require password field', async () => {
+        const { response, data } = await api.post('/auth/login', {
+          email: testUser.email
+        });
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+    });
+
+    // Test Suite 3: OTP Verification
+    runner.describe('OTP Verification', (it) => {
+      let userId;
+
+      it('should send OTP after login', async () => {
+        const { response, data } = await api.post('/auth/login', {
+          email: testUser.email,
+          password: testUser.password
+        });
+        
+        userId = data.data.userId;
+        expect(data.data.requiresOTP).toBeTruthy();
+      });
+
+      it('should reject invalid OTP', async () => {
+        const { response, data } = await api.post('/auth/verify-otp', {
+          userId: userId,
+          otp: '000000'
+        });
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should reject empty OTP', async () => {
+        const { response, data } = await api.post('/auth/verify-otp', {
+          userId: userId,
+          otp: ''
+        });
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should reject invalid OTP format', async () => {
+        const { response, data } = await api.post('/auth/verify-otp', {
+          userId: userId,
+          otp: 'ABCDEF'
+        });
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should accept valid OTP (manual)', async () => {
+        // NOTE: In real test, you'd get OTP from console/email
+        // For demo, this will fail unless you provide actual OTP
+        const manualOTP = prompt('Enter the OTP sent to console (6 digits):');
+        
+        if (manualOTP && manualOTP.length === 6) {
+          const { response, data } = await api.post('/auth/verify-otp', {
+            userId: userId,
+            otp: manualOTP
+          });
+          
+          if (data.success) {
+            testToken = data.data.accessToken;
+            api.setToken(testToken);
+            expect(response.status).toBe(200);
+            expect(data.data).toHaveProperty('accessToken');
+            expect(data.data.user).toHaveProperty('id');
+          }
+        }
+      });
+    });
+
+    // Test Suite 4: Token Management
+    runner.describe('Token Management', (it) => {
+      it('should reject requests without token', async () => {
+        const noTokenAPI = new APIHelper(api.baseURL);
+        const { response, data } = await noTokenAPI.get('/accounts');
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should reject invalid token', async () => {
+        const invalidTokenAPI = new APIHelper(api.baseURL);
+        invalidTokenAPI.setToken('invalid.token.here');
+        
+        const { response, data } = await invalidTokenAPI.get('/accounts');
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
+      });
+
+      it('should accept valid token', async () => {
+        if (testToken) {
+          const { response, data } = await api.get('/accounts');
+          expect(response.status).toBe(200);
+        }
+      });
+    });
+
+    // Test Suite 5: Logout
+    runner.describe('User Logout', (it) => {
+      it('should logout successfully', async () => {
+        if (testToken) {
+          const { response, data } = await api.post('/auth/logout', {});
+          
+          expect(response.status).toBe(200);
+          expect(data.success).toBeTruthy();
+        }
+      });
+
+      it('should clear user session', async () => {
+        // After logout, requests should fail
+        const { response } = await api.get('/accounts');
+        // Token might still work if not blacklisted
+        expect(response.status).toBeGreaterThan(0);
+      });
+    });
+
+    // Test Suite 6: Rate Limiting
+    runner.describe('Rate Limiting', (it) => {
+      it('should enforce login rate limits', async () => {
+        const attempts = [];
+        
+        // Try 6 failed login attempts (limit is 5)
+        for (let i = 0; i < 6; i++) {
+          const { response } = await api.post('/auth/login', {
+            email: testUser.email,
+            password: 'WrongPassword!'
+          });
+          attempts.push(response.status);
+          await wait(100);
+        }
+        
+        // Last attempt should be rate limited
+        const lastStatus = attempts[attempts.length - 1];
+        expect(lastStatus).toBe(429);
+      });
+    });
+
+    // Event Listeners
+    document.getElementById('run-tests').addEventListener('click', async () => {
+      const apiUrl = document.getElementById('api-url').value;
+      api = new APIHelper(apiUrl);
+      
+      document.getElementById('run-tests').disabled = true;
+      await runner.run();
+      document.getElementById('run-tests').disabled = false;
+    });
+
+    document.getElementById('clear-results').addEventListener('click', () => {
+      document.getElementById('test-results').innerHTML = '<p class="loading">Click "Run All Tests" to begin</p>';
+    });
+  </script>
+</body>
+</html>

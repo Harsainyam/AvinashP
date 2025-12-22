@@ -1,0 +1,265 @@
+.transaction-history-container {
+  min-height: 100vh;
+  background: var(--gray-50);
+  padding: 2rem;
+}
+
+.page-header {
+  max-width: 1400px;
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: var(--gray-900);
+}
+
+.filter-bar {
+  max-width: 1400px;
+  margin: 0 auto 2rem;
+  display: flex;
+  gap: 1rem;
+  background: var(--white);
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  color: var(--gray-700);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  background: var(--gray-200);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--white);
+}
+
+.transactions-table {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.transaction-row {
+  display: grid;
+  grid-template-columns: 120px 120px 1fr 180px 150px 120px;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--gray-100);
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.transaction-row:hover {
+  background: var(--gray-50);
+}
+
+.transaction-row:last-child {
+  border-bottom: none;
+}
+
+.transaction-cell {
+  overflow: hidden;
+}
+
+.transaction-cell.date {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.transaction-cell.date .time {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin-top: 0.25rem;
+}
+
+.transaction-cell.type .type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.type-badge.transfer {
+  background: rgba(102, 126, 234, 0.1);
+  color: var(--primary);
+}
+
+.type-badge.deposit {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.type-badge.withdrawal {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+.type-badge.payment {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.transaction-cell.account p {
+  margin: 0 0 0.25rem 0;
+  font-weight: 500;
+  color: var(--gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-cell.account .description {
+  font-size: 0.875rem;
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-cell.reference {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: var(--gray-600);
+}
+
+.transaction-cell.amount span {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.transaction-cell.amount .positive {
+  color: var(--success);
+}
+
+.transaction-cell.amount .negative {
+  color: var(--gray-900);
+}
+
+.transaction-cell.status .status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.status-badge.failed {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+.btn-load-more {
+  width: 100%;
+  padding: 1rem;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-load-more:hover:not(:disabled) {
+  background: var(--gray-200);
+}
+
+.btn-load-more:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Transfer Form */
+.transfer-form {
+  padding: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .transaction-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .transaction-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .transaction-cell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--gray-600);
+    font-size: 0.875rem;
+  }
+  
+  .transaction-cell.date::before {
+    content: 'Date:';
+  }
+  
+  .transaction-cell.type::before {
+    content: 'Type:';
+  }
+  
+  .transaction-cell.account::before {
+    content: 'Account:';
+  }
+  
+  .transaction-cell.reference::before {
+    content: 'Reference:';
+  }
+  
+  .transaction-cell.amount::before {
+    content: 'Amount:';
+  }
+  
+  .transaction-cell.status::before {
+    content: 'Status:';
+  }
+}
+
+@media (max-width: 768px) {
+  .transaction-history-container {
+    padding: 1rem;
+  }
+  
+  .filter-bar {
+    padding: 0.75rem;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}

@@ -1,0 +1,124 @@
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-button {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  padding: 8px;
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-button:hover {
+  background: var(--gray-50);
+}
+
+.notification-icon {
+  font-size: 1.25rem;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--error);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  min-width: 20px;
+  text-align: center;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  z-index: 1000;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.notification-header h3 {
+margin: 0;
+font-size: 1.125rem;
+}
+.notification-actions {
+display: flex;
+gap: 0.5rem;
+}
+.notification-list {
+overflow-y: auto;
+max-height: 400px;
+}
+.notification-empty {
+padding: 3rem 1.5rem;
+text-align: center;
+color: var(--gray-500);
+}
+.notification-item {
+display: flex;
+align-items: flex-start;
+gap: 1rem;
+padding: 1rem 1.5rem;
+border-bottom: 1px solid var(--gray-100);
+cursor: pointer;
+transition: all var(--transition-fast);
+position: relative;
+}
+.notification-item:hover {
+background: var(--gray-50);
+}
+.notification-item.unread {
+background: rgba(102, 126, 234, 0.05);
+}
+.notification-icon-type {
+font-size: 1.5rem;
+flex-shrink: 0;
+}
+.notification-content {
+flex: 1;
+min-width: 0;
+}
+.notification-message {
+margin: 0 0 0.25rem 0;
+font-weight: 500;
+color: var(--gray-900);
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+.notification-time {
+font-size: 0.75rem;
+color: var(--gray-500);
+}
+.notification-unread-dot {
+position: absolute;
+top: 50%;
+right: 1rem;
+transform: translateY(-50%);
+width: 8px;
+height: 8px;
+background: var(--primary);
+border-radius: var(--radius-full);
+}
