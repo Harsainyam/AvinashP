@@ -21,9 +21,10 @@ const apiLimiter = rateLimit({
 });
 
 // Strict rate limiter for auth routes
+// Strict rate limiter for auth routes
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // 5 requests per window
+  max: process.env.NODE_ENV === 'production' ? 5 : 100, // 100 for dev, 5 for prod
   message: {
     success: false,
     message: 'Too many authentication attempts, please try again later.'

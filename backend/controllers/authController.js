@@ -8,6 +8,9 @@ const cacheService = require('../services/cacheService');
 const logger = require('../utils/logger');
 const { getDB } = require('../config/mongodb');
 
+const inMemoryOTP = new Map();
+
+
 // Signup Controller
 const signup = async (req, res, next) => {
   try {

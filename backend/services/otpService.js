@@ -1,7 +1,13 @@
 
+
+
+
 const crypto = require('crypto');
 const { setEx, get, del } = require('../config/redis');
 const logger = require('../utils/logger');
+
+const inMemoryOTP = new Map();
+
 
 const OTP_EXPIRY = parseInt(process.env.OTP_EXPIRY_SECONDS) || 60;
 const OTP_LENGTH = parseInt(process.env.OTP_LENGTH) || 6;
@@ -13,13 +19,19 @@ const OTP_LENGTH = parseInt(process.env.OTP_LENGTH) || 6;
  */
 const generateOTP = async (userId) => {
   try {
-    // Generate random OTP
     const otp = crypto
       .randomInt(0, Math.pow(10, OTP_LENGTH))
       .toString()
       .padStart(OTP_LENGTH, '0');
 
-    // Store in Redis with expiry
+    // ✅ TEST ENV: store in memory
+    if (process.env.NODE_ENV === 'test') {
+      inMemoryOTP.set(userId, otp);
+      logger.info(`[TEST MODE] OTP stored in memory for user ${userId}: ${otp}`);
+      return otp;
+    }
+
+    // ✅ NORMAL MODE: store in Redis
     const key = `otp:${userId}`;
     await setEx(key, otp, OTP_EXPIRY);
 
@@ -31,6 +43,7 @@ const generateOTP = async (userId) => {
   }
 };
 
+
 /**
  * Verify OTP for user
  * @param {string} userId - User ID
@@ -39,6 +52,26 @@ const generateOTP = async (userId) => {
  */
 const verifyOTP = async (userId, otp) => {
   try {
+    // ✅ TEST ENV
+    if (process.env.NODE_ENV === 'test') {
+      const storedOTP = inMemoryOTP.get(userId);
+
+      if (!storedOTP) {
+        logger.warn(`[TEST MODE] OTP not found for user ${userId}`);
+        return false;
+      }
+
+      if (storedOTP === otp) {
+        inMemoryOTP.delete(userId);
+        logger.info(`[TEST MODE] OTP verified for user ${userId}`);
+        return true;
+      }
+
+      logger.warn(`[TEST MODE] Invalid OTP attempt for user ${userId}`);
+      return false;
+    }
+
+    // ✅ NORMAL MODE (Redis)
     const key = `otp:${userId}`;
     const storedOTP = await get(key);
 
@@ -48,7 +81,6 @@ const verifyOTP = async (userId, otp) => {
     }
 
     if (storedOTP === otp) {
-      // Delete OTP after successful verification
       await del(key);
       logger.info(`OTP verified successfully for user ${userId}`);
       return true;
@@ -61,6 +93,7 @@ const verifyOTP = async (userId, otp) => {
     return false;
   }
 };
+
 
 /**
  * Resend OTP (with rate limiting check)

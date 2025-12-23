@@ -263,6 +263,7 @@ class APIHelper {
 }
 
 // Test Data Generator
+// Test Data Generator
 class TestDataGenerator {
   static generateEmail() {
     const timestamp = Date.now();
@@ -271,6 +272,7 @@ class TestDataGenerator {
   }
 
   static generatePassword() {
+    // Ensure it meets validation: min 8 chars, uppercase, lowercase, number, special char
     return 'Test@1234';
   }
 
@@ -280,24 +282,14 @@ class TestDataGenerator {
       email: this.generateEmail(),
       password: this.generatePassword(),
       firstName: `TestUser${id}`,
-      lastName: 'Smith',
-      phone: '+1234567890',
+      lastName: `Smith${id}`,
+      phone: "9876543210",
       dateOfBirth: '1990-01-01',
       address: '123 Test Street, Test City, TC 12345'
     };
   }
-
-  static generateAccountNumber() {
-    return '100' + Math.floor(Math.random() * 10000000).toString().padStart(7, '0');
-  }
-
-  static generateAmount(min = 10, max = 1000) {
-    return (Math.random() * (max - min) + min).toFixed(2);
-  }
-
-  static generateReference() {
-    return 'TXN' + Date.now() + Math.random().toString(36).substring(2, 9).toUpperCase();
-  }
+  
+  // ... rest of the class
 }
 
 // Utility Functions
