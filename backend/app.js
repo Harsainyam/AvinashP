@@ -6,7 +6,7 @@ const accountRoutes = require('./routes/accountRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
-
+const aboutRoutes = require('./routes/aboutRoutes');
 const app = express();
 
 // Security Middleware
@@ -100,6 +100,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/accounts', accountRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/about', aboutRoutes);
 
 // 404 Handler
 app.use((req, res) => {

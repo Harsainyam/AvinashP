@@ -95,6 +95,7 @@ const Dashboard = () => {
               </span>
             </button>
             <div className="user-dropdown">
+              <button onClick={() => navigate('/about')}>About Us</button>
               <button onClick={() => navigate('/profile')}>Profile</button>
               <button onClick={() => navigate('/settings')}>Settings</button>
               <button onClick={logout} className="logout-btn">Logout</button>

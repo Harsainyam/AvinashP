@@ -12,6 +12,7 @@ import Signup from './components/Auth/Signup';
 import OTPVerification from './components/Auth/OTPVerification';
 import Dashboard from './components/Dashboard/Dashboard';
 import TransactionHistory from './components/Transaction/TransactionHistory';
+import AboutUs from './components/About/AboutUs';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/verify-otp" element={<OTPVerification />} />
-              
+              <Route path="/about" element={<AboutUs />} />              
               <Route
                 path="/dashboard"
                 element={

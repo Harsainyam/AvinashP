@@ -13,7 +13,7 @@ import '../../styles/components/Dashboard.css';
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   const [accounts, setAccounts] = useState([]);
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
@@ -95,6 +95,7 @@ const Dashboard = () => {
               </span>
             </button>
             <div className="user-dropdown">
+              <button onClick={() => navigate('/about')}>About Us</button>
               <button onClick={() => navigate('/profile')}>Profile</button>
               <button onClick={() => navigate('/settings')}>Settings</button>
               <button onClick={logout} className="logout-btn">Logout</button>
@@ -118,7 +119,7 @@ const Dashboard = () => {
               💸 New Transfer
             </button>
           </div>
-          
+
           <div className="accounts-grid">
             {accounts.map(account => (
               <AccountCard
@@ -142,7 +143,7 @@ const Dashboard = () => {
               View All →
             </button>
           </div>
-          
+
           <TransactionList transactions={recentTransactions} />
         </section>
 
@@ -159,7 +160,7 @@ const Dashboard = () => {
                 </h4>
               </div>
             </div>
-            
+
             <div className="stat-card">
               <div className="stat-icon">📊</div>
               <div className="stat-content">
@@ -167,7 +168,7 @@ const Dashboard = () => {
                 <h4 className="stat-value">{recentTransactions.length}</h4>
               </div>
             </div>
-            
+
             <div className="stat-card">
               <div className="stat-icon">🏦</div>
               <div className="stat-content">
