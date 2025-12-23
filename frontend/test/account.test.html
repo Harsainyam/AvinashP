@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Integration Tests - Credora</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="test-container">
     <div class="test-header">
@@ -16,16 +18,17 @@
     <div class="test-controls">
       <button id="run-tests">Run All Tests</button>
       <button id="clear-results">Clear Results</button>
-      
+
       <div class="config-section">
         <label for="api-url">API URL:</label>
         <input type="text" id="api-url" value="http://localhost:5000/api">
       </div>
-      
+
       <div class="config-section">
         <label for="test-token">Access Token:</label>
         <input type="text" id="test-token" placeholder="Paste token from auth test">
-        <button id="load-token" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">
+        <button id="load-token"
+          style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">
           Load Saved Token
         </button>
       </div>
@@ -46,16 +49,16 @@
     runner.describe('Get User Accounts', (it) => {
       it('should retrieve user accounts', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         console.log('Get accounts response:', { status: response.status, data });
-        
+
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
         expect(Array.isArray(data.data)).toBeTruthy();
-        
+
         testAccounts = data.data;
         TestStorage.set('testAccounts', testAccounts);
-        
+
         // Display accounts info
         if (testAccounts.length > 0) {
           console.log('Test Accounts:', testAccounts);
@@ -64,9 +67,9 @@
 
       it('should return account details', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         expect(data.data.length).toBeGreaterThan(0);
-        
+
         const account = data.data[0];
         expect(account).toHaveProperty('id');
         expect(account).toHaveProperty('account_number');
@@ -78,7 +81,7 @@
 
       it('should only show active accounts', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           expect(account.status).toBe('active');
         });
@@ -87,10 +90,10 @@
       it('should use cache for repeated requests', async () => {
         // First request (should hit DB)
         const { data: data1 } = await api.get('/accounts');
-        
+
         // Second request (should hit cache)
         const { data: data2 } = await api.get('/accounts');
-        
+
         if (data2.cached !== undefined) {
           expect(data2.cached).toBeTruthy();
         } else {
@@ -100,20 +103,20 @@
 
       it('should bypass cache with fresh parameter', async () => {
         const { response, data } = await api.get('/accounts?fresh=true');
-        
+
         expect(response.status).toBe(200);
         expect(data.cached).toBeFalsy();
       });
 
       it('should return accounts sorted by creation date', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         if (data.data.length > 1) {
           const dates = data.data.map(acc => new Date(acc.created_at).getTime());
-          
+
           // Check if sorted descending (newest first)
           for (let i = 1; i < dates.length; i++) {
-            expect(dates[i-1]).toBeGreaterThan(dates[i]);
+            expect(dates[i - 1]).toBeGreaterThan(dates[i]);
           }
         }
       });
@@ -126,12 +129,12 @@
       it('should get specific account by ID', async () => {
         const accounts = TestStorage.get('testAccounts') || testAccounts;
         expect(accounts.length).toBeGreaterThan(0);
-        
+
         accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}`);
-        
+
         console.log('Get account details:', { status: response.status, data });
-        
+
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
         expect(data.data.id).toBe(accountId);
@@ -141,7 +144,7 @@
         const accounts = TestStorage.get('testAccounts') || testAccounts;
         accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}`);
-        
+
         expect(data.data).toHaveProperty('first_name');
         expect(data.data).toHaveProperty('last_name');
         expect(data.data).toHaveProperty('email');
@@ -149,7 +152,7 @@
 
       it('should reject invalid account ID', async () => {
         const { response, data } = await api.get('/accounts/invalid-uuid');
-        
+
         expect(response.status).toBe(400);
         expect(data.success).toBeFalsy();
       });
@@ -157,7 +160,7 @@
       it('should reject non-existent account', async () => {
         const fakeUUID = '00000000-0000-0000-0000-000000000000';
         const { response, data } = await api.get(`/accounts/${fakeUUID}`);
-        
+
         expect(response.status).toBe(404);
         expect(data.success).toBeFalsy();
       });
@@ -166,7 +169,7 @@
         // Try to access an account that doesn't belong to the user
         const fakeUUID = '12345678-1234-1234-1234-123456789012';
         const { response, data } = await api.get(`/accounts/${fakeUUID}`);
-        
+
         // Should return 404 (not found) or 403 (forbidden)
         expect([403, 404]).toContain(response.status);
         expect(data.success).toBeFalsy();
@@ -181,9 +184,9 @@
         const accounts = TestStorage.get('testAccounts') || testAccounts;
         accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}/balance`);
-        
+
         console.log('Get balance:', { status: response.status, data });
-        
+
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
         expect(data.data).toHaveProperty('balance');
@@ -195,7 +198,7 @@
         const accounts = TestStorage.get('testAccounts') || testAccounts;
         accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}/balance`);
-        
+
         const balance = parseFloat(data.data.balance);
         expect(typeof balance).toBe('number');
         expect(isNaN(balance)).toBeFalsy();
@@ -205,7 +208,7 @@
       it('should reject invalid account for balance', async () => {
         const fakeUUID = '00000000-0000-0000-0000-000000000000';
         const { response, data } = await api.get(`/accounts/${fakeUUID}/balance`);
-        
+
         expect(response.status).toBe(404);
         expect(data.success).toBeFalsy();
       });
@@ -214,7 +217,7 @@
         const accounts = TestStorage.get('testAccounts') || testAccounts;
         accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}/balance`);
-        
+
         const balanceStr = data.data.balance.toString();
         // Should have at most 2 decimal places
         const parts = balanceStr.split('.');
@@ -228,10 +231,10 @@
     runner.describe('Account Types', (it) => {
       it('should support different account types', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         const accountTypes = data.data.map(acc => acc.account_type);
         const validTypes = ['savings', 'checking', 'business'];
-        
+
         accountTypes.forEach(type => {
           expect(validTypes).toContain(type);
         });
@@ -239,13 +242,13 @@
 
       it('should have at least one account', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         expect(data.data.length).toBeGreaterThan(0);
       });
 
       it('should return account type in lowercase', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           expect(account.account_type).toBe(account.account_type.toLowerCase());
         });
@@ -253,10 +256,10 @@
 
       it('should have default account created on signup', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         // At least one account should exist (created during signup)
         expect(data.data.length).toBeGreaterThan(0);
-        
+
         // Check if first account is a savings account (default)
         const firstAccount = data.data[0];
         expect(['savings', 'checking']).toContain(firstAccount.account_type);
@@ -268,7 +271,7 @@
       it('should require authentication', async () => {
         const noAuthAPI = new APIHelper(api.baseURL);
         const { response, data } = await noAuthAPI.get('/accounts');
-        
+
         expect(response.status).toBe(401);
         expect(data.success).toBeFalsy();
       });
@@ -276,16 +279,16 @@
       it('should validate token format', async () => {
         const invalidAPI = new APIHelper(api.baseURL);
         invalidAPI.setToken('invalid-token');
-        
+
         const { response, data } = await invalidAPI.get('/accounts');
-        
+
         expect(response.status).toBe(401);
         expect(data.success).toBeFalsy();
       });
 
       it('should not expose sensitive data', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           expect(account).not.toHaveProperty('password_hash');
           expect(account).not.toHaveProperty('password');
@@ -297,9 +300,9 @@
         const expiredAPI = new APIHelper(api.baseURL);
         // Using a clearly expired/invalid token
         expiredAPI.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c');
-        
+
         const { response, data } = await expiredAPI.get('/accounts');
-        
+
         expect(response.status).toBe(401);
         expect(data.success).toBeFalsy();
       });
@@ -309,7 +312,7 @@
     runner.describe('Data Validation', (it) => {
       it('should have valid account numbers', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           expect(account.account_number.length).toBeGreaterThan(9);
           expect(/^\d+$/.test(account.account_number)).toBeTruthy();
@@ -318,7 +321,7 @@
 
       it('should have valid currency codes', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           expect(account.currency).toBe('USD');
           expect(account.currency.length).toBe(3);
@@ -327,7 +330,7 @@
 
       it('should have non-negative balances', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           const balance = parseFloat(account.balance);
           expect(balance).toBeGreaterThan(0);
@@ -336,12 +339,12 @@
 
       it('should have valid timestamps', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           const createdAt = new Date(account.created_at);
           expect(createdAt instanceof Date).toBeTruthy();
           expect(isNaN(createdAt.getTime())).toBeFalsy();
-          
+
           // Should be in the past
           expect(createdAt.getTime()).toBeLessThan(Date.now());
         });
@@ -349,18 +352,18 @@
 
       it('should have unique account numbers', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         const accountNumbers = data.data.map(acc => acc.account_number);
         const uniqueNumbers = new Set(accountNumbers);
-        
+
         expect(uniqueNumbers.size).toBe(accountNumbers.length);
       });
 
       it('should have valid UUID format for account IDs', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        
+
         data.data.forEach(account => {
           expect(uuidRegex.test(account.id)).toBeTruthy();
         });
@@ -371,9 +374,9 @@
     runner.describe('Account Status', (it) => {
       it('should have valid status values', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         const validStatuses = ['active', 'frozen', 'closed'];
-        
+
         data.data.forEach(account => {
           expect(validStatuses).toContain(account.status);
         });
@@ -381,7 +384,7 @@
 
       it('should exclude closed accounts from default query', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         data.data.forEach(account => {
           expect(account.status).not.toBe('closed');
         });
@@ -389,7 +392,7 @@
 
       it('should have mostly active accounts', async () => {
         const { response, data } = await api.get('/accounts');
-        
+
         const activeCount = data.data.filter(acc => acc.status === 'active').length;
         expect(activeCount).toBeGreaterThan(0);
       });
@@ -398,11 +401,31 @@
     // Load saved token button handler
     document.getElementById('load-token').addEventListener('click', () => {
       const savedToken = TestStorage.get('accessToken');
+
+      console.log('Attempting to load token...');
+      console.log('Token found:', savedToken ? 'Yes' : 'No');
+
       if (savedToken) {
         document.getElementById('test-token').value = savedToken;
-        alert('Token loaded from previous test session!');
+
+        // Show success message with token preview
+        const tokenPreview = savedToken.substring(0, 20) + '...';
+        alert(`✅ Token loaded successfully!\n\nPreview: ${tokenPreview}\n\nYou can now run the tests.`);
       } else {
-        alert('No saved token found. Please run authentication tests first.');
+        // Check if any test data exists
+        const allKeys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith('credora_test_')) {
+            allKeys.push(key);
+          }
+        }
+
+        if (allKeys.length > 0) {
+          alert(`⚠️ Found ${allKeys.length} test data items, but no access token.\n\nAvailable data: ${allKeys.join(', ')}\n\nPlease run the Authentication tests first to generate a token.`);
+        } else {
+          alert('❌ No saved token found.\n\nPlease run the Authentication tests first:\n1. Go back to test-runner.html\n2. Click "Run Auth Tests"\n3. Complete the OTP verification\n4. Copy the token\n5. Return here and click "Load Saved Token"');
+        }
       }
     });
 
@@ -410,18 +433,18 @@
     document.getElementById('run-tests').addEventListener('click', async () => {
       const apiUrl = document.getElementById('api-url').value;
       const token = document.getElementById('test-token').value;
-      
+
       if (!token) {
         alert('Please provide an access token first! Run the Auth tests to get one or click "Load Saved Token".');
         return;
       }
-      
+
       api = new APIHelper(apiUrl);
       api.setToken(token);
-      
+
       document.getElementById('run-tests').disabled = true;
       document.getElementById('test-results').innerHTML = '<h2>Running Tests...</h2>';
-      
+
       try {
         await runner.run();
       } catch (error) {
@@ -439,12 +462,40 @@
 
     // Auto-load token on page load
     window.addEventListener('load', () => {
+      console.log('Page loaded, checking for saved token...');
+
       const savedToken = TestStorage.get('accessToken');
+
       if (savedToken) {
         document.getElementById('test-token').value = savedToken;
-        console.log('Auto-loaded saved token');
+        console.log('✅ Auto-loaded saved token');
+
+        // Show a subtle notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #d1fae5;
+      border: 2px solid #10b981;
+      color: #065f46;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 10000;
+      animation: slideIn 0.3s ease-out;
+    `;
+        notification.innerHTML = '✅ Token auto-loaded from storage';
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      } else {
+        console.log('❌ No saved token found');
       }
     });
   </script>
 </body>
+
 </html>

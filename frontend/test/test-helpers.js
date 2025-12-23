@@ -312,23 +312,27 @@ const retry = async (fn, maxAttempts = 3, delay = 1000) => {
 // Storage Helper for test data
 class TestStorage {
   static set(key, value) {
-    sessionStorage.setItem(`credora_test_${key}`, JSON.stringify(value));
+    // Changed from sessionStorage to localStorage
+    localStorage.setItem(`credora_test_${key}`, JSON.stringify(value));
   }
 
   static get(key) {
-    const value = sessionStorage.getItem(`credora_test_${key}`);
+    // Changed from sessionStorage to localStorage
+    const value = localStorage.getItem(`credora_test_${key}`);
     return value ? JSON.parse(value) : null;
   }
 
   static remove(key) {
-    sessionStorage.removeItem(`credora_test_${key}`);
+    // Changed from sessionStorage to localStorage
+    localStorage.removeItem(`credora_test_${key}`);
   }
 
   static clear() {
-    const keys = Object.keys(sessionStorage);
+    // Changed from sessionStorage to localStorage
+    const keys = Object.keys(localStorage);
     keys.forEach(key => {
       if (key.startsWith('credora_test_')) {
-        sessionStorage.removeItem(key);
+        localStorage.removeItem(key);
       }
     });
   }
