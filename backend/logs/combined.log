@@ -7614,3 +7614,319 @@
 {"level":"info","message":"Socket authenticated for user 108894f5-9e73-4b86-9aee-257f55dec757","service":"credora-backend","timestamp":"2025-12-22 22:01:56"}
 {"level":"info","message":"Client connected: y1URtsXPQbahRF2WAAAC, User: 108894f5-9e73-4b86-9aee-257f55dec757","service":"credora-backend","timestamp":"2025-12-22 22:01:56"}
 {"level":"info","message":"Client disconnected: y1URtsXPQbahRF2WAAAC, Reason: transport close","service":"credora-backend","timestamp":"2025-12-22 22:02:01"}
+{"level":"info","message":"Socket authenticated for user 108894f5-9e73-4b86-9aee-257f55dec757","service":"credora-backend","timestamp":"2025-12-22 22:05:54"}
+{"level":"info","message":"Client connected: vpvVjuQnMPbctOvRAAAF, User: 108894f5-9e73-4b86-9aee-257f55dec757","service":"credora-backend","timestamp":"2025-12-22 22:05:54"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-22 22:07:02","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"✅ PostgreSQL connected successfully","service":"credora-backend","timestamp":"2025-12-22 22:07:02"}
+{"duration":69,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-22 22:07:02"}
+{"level":"info","message":"OTP generated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:02"}
+{"level":"info","message":"OTP for aa1@gmail.com: 495562","service":"credora-backend","timestamp":"2025-12-22 22:07:02"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","service":"credora-backend","timestamp":"2025-12-22 22:07:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"OTP verified successfully for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"duration":4,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"level":"debug","message":"Cached user profile for 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"level":"info","message":"Client disconnected: vpvVjuQnMPbctOvRAAAF, Reason: client namespace disconnect","service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-22 22:07:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":4,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"level":"info","message":"Client connected: 9u6-JacEIP25Yh7yAAAH, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-22 22:07:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":2,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-22 22:07:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":6,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-22 22:07:15"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-22 22:07:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:35"}
+{"level":"info","message":"Client connected: x7QlOLKAj-2DHOMYAAAJ, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:35"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-22 22:07:45","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":1,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:45"}
+{"duration":10,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:45"}
+{"level":"info","message":"OTP generated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:45"}
+{"level":"info","message":"OTP for aa1@gmail.com: 693622","service":"credora-backend","timestamp":"2025-12-22 22:07:45"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","service":"credora-backend","timestamp":"2025-12-22 22:07:55","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"OTP verified successfully for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"duration":1,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"level":"debug","message":"Cached user profile for 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"level":"info","message":"Client disconnected: x7QlOLKAj-2DHOMYAAAJ, Reason: client namespace disconnect","service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-22 22:07:55","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"level":"info","message":"Client connected: 6HRXw02ynvw_HcqVAAAL, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"duration":6,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-22 22:07:55","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":3,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-22 22:07:55"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-22 22:07:55","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-22 22:07:55","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Client disconnected: 6HRXw02ynvw_HcqVAAAL, Reason: transport close","service":"credora-backend","timestamp":"2025-12-22 22:08:13"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:08:13"}
+{"level":"info","message":"Client connected: QHmemBKUYb9NnUT6AAAO, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-22 22:08:13"}
+{"level":"info","message":"Client disconnected: QHmemBKUYb9NnUT6AAAO, Reason: transport close","service":"credora-backend","timestamp":"2025-12-22 22:08:17"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:50"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-22 22:08:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-22 22:08:51","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-22 22:08:51","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-22 22:08:51","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","service":"credora-backend","timestamp":"2025-12-22 22:08:51","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","service":"credora-backend","timestamp":"2025-12-22 22:08:51","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","service":"credora-backend","timestamp":"2025-12-22 22:08:51","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"warn","message":"Auth rate limit exceeded for IP: ::1","service":"credora-backend","timestamp":"2025-12-22 22:08:51"}
+{"level":"info","message":"Client disconnected: 9u6-JacEIP25Yh7yAAAH, Reason: transport close","service":"credora-backend","timestamp":"2025-12-22 22:10:54"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-22 22:11:02"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 09:23:55"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:23:57"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:00"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:02"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:05"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:07"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:09"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:12"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:15"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:17"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:20"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:23"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:25"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:28"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:31"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:34"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:37"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:39"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:42"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:45"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:48"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:51"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:53"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:56"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:24:59"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:25:02"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 09:25:05"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 09:25:05"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 09:25:05"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 09:25:06"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:11:22"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:11:24"}
+{"level":"error","message":"❌ MongoDB connection error: getaddrinfo ENOTFOUND mongo","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"},"service":"credora-backend","stack":"MongoServerSelectionError: getaddrinfo ENOTFOUND mongo\n    at Timeout._onTimeout (C:\\Users\\Asus\\Desktop\\credora\\backend\\node_modules\\mongodb\\lib\\sdam\\topology.js:278:38)\n    at listOnTimeout (node:internal/timers:573:17)\n    at process.processTimers (node:internal/timers:514:7)","timestamp":"2025-12-23 10:11:25"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:11:37"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:11:37"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:11:39"}
+{"level":"error","message":"❌ MongoDB connection error: Server selection timed out after 5000 ms","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"},"service":"credora-backend","stack":"MongoServerSelectionError: Server selection timed out after 5000 ms\n    at Timeout._onTimeout (C:\\Users\\Asus\\Desktop\\credora\\backend\\node_modules\\mongodb\\lib\\sdam\\topology.js:278:38)\n    at listOnTimeout (node:internal/timers:573:17)\n    at process.processTimers (node:internal/timers:514:7)","timestamp":"2025-12-23 10:11:39"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:12:42"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:12:44"}
+{"level":"error","message":"❌ MongoDB connection error: getaddrinfo ENOTFOUND mongo","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"},"service":"credora-backend","stack":"MongoServerSelectionError: getaddrinfo ENOTFOUND mongo\n    at Timeout._onTimeout (C:\\Users\\Asus\\Desktop\\credora\\backend\\node_modules\\mongodb\\lib\\sdam\\topology.js:278:38)\n    at listOnTimeout (node:internal/timers:573:17)\n    at process.processTimers (node:internal/timers:514:7)","timestamp":"2025-12-23 10:12:44"}
+{"code":"ENOTFOUND","errno":-3008,"hostname":"redis","level":"error","message":"❌ Redis connection error: getaddrinfo ENOTFOUND redis","service":"credora-backend","stack":"Error: getaddrinfo ENOTFOUND redis\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)","syscall":"getaddrinfo","timestamp":"2025-12-23 10:19:34"}
+{"level":"error","message":"❌ MongoDB connection error: getaddrinfo ENOTFOUND mongo","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"},"service":"credora-backend","stack":"MongoServerSelectionError: getaddrinfo ENOTFOUND mongo\n    at Timeout._onTimeout (C:\\Users\\Asus\\Desktop\\credora\\backend\\node_modules\\mongodb\\lib\\sdam\\topology.js:278:38)\n    at listOnTimeout (node:internal/timers:573:17)\n    at process.processTimers (node:internal/timers:514:7)","timestamp":"2025-12-23 10:19:36"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:20:15"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:32:04"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 10:32:04"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:32:05"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:32:09"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:33:00"}
+{"level":"info","message":"Client connected: BBmAuITDBCr5v8CdAAAB, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:33:00"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:36:01"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 10:36:01"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:36:01"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:36:11"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:36:12"}
+{"level":"info","message":"Client connected: So0dDWRMfAMLqzOVAAAB, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:36:12"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:38:50"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 10:38:50"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:38:50"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"level":"info","message":"Client connected: OzfJJZgaHjUrcmOvAAAB, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:38:54"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-23 10:39:28","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:39:28"}
+{"level":"info","message":"Client connected: Q7958jAZ5gowimJ3AAAE, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:39:28"}
+{"level":"info","message":"✅ PostgreSQL connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:39:29"}
+{"duration":357,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:39:29"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-23 10:39:29","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":3,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:39:29"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-23 10:39:29","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":9,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 10:39:29"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-23 10:39:29","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Client disconnected: Q7958jAZ5gowimJ3AAAE, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 10:39:44"}
+{"level":"info","message":"Socket authenticated for user 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:39:44"}
+{"level":"info","message":"Client connected: J2dxKfXHQLkAeCuXAAAH, User: 8421046f-043e-40ea-9ff6-d2214e981867","service":"credora-backend","timestamp":"2025-12-23 10:39:44"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-23 10:40:56","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":9,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 10:40:56"}
+{"level":"info","message":"Client disconnected: J2dxKfXHQLkAeCuXAAAH, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 10:40:56"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-23 10:41:50","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":2,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 10:41:50"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:42:49"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","service":"credora-backend","timestamp":"2025-12-23 10:43:23","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"✅ PostgreSQL connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:43:23"}
+{"duration":81,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 10:43:23"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-23 10:44:00","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-23 10:44:08","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-23 10:44:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","service":"credora-backend","timestamp":"2025-12-23 10:44:24","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":1,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 10:44:24"}
+{"level":"info","message":"OTP generated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:25"}
+{"level":"info","message":"OTP for harsaiwewenyamsingh6@gmail.com: 065000","service":"credora-backend","timestamp":"2025-12-23 10:44:25"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","service":"credora-backend","timestamp":"2025-12-23 10:44:33","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"OTP verified successfully for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"duration":11,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"level":"debug","message":"Cached user profile for f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"level":"info","message":"Socket authenticated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"level":"info","message":"Client connected: MBODio6H0ciPL0hfAAAB, User: f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-23 10:44:33","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":3,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-23 10:44:33","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":2,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-23 10:44:33","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":7,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 10:44:33"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-23 10:44:33","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Client disconnected: MBODio6H0ciPL0hfAAAB, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 10:44:42"}
+{"level":"info","message":"Socket authenticated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:42"}
+{"level":"info","message":"Client connected: 7o1iH7HRaYFKBtmFAAAD, User: f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:44:42"}
+{"level":"info","message":"Client disconnected: 7o1iH7HRaYFKBtmFAAAD, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 10:45:42"}
+{"level":"info","message":"Socket authenticated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:45:42"}
+{"level":"info","message":"Client connected: AkKF8cdLurZS0D-1AAAG, User: f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:45:42"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-23 10:46:12","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":2,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:46:12"}
+{"level":"info","message":"Socket authenticated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:46:12"}
+{"level":"info","message":"Client connected: kyxlxinAdB0MbCaQAAAJ, User: f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:46:12"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","service":"credora-backend","timestamp":"2025-12-23 10:46:12","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":2,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 10:46:12"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-23 10:46:12","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","service":"credora-backend","timestamp":"2025-12-23 10:46:12","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:55:04"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 10:55:04"}
+{"level":"debug","message":"PostgreSQL client removed from pool","service":"credora-backend","timestamp":"2025-12-23 10:55:04"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:55:05"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"Socket authenticated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"Client connected: UVjbeoeZQk9WQYkkAAAB, User: f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"Socket authenticated for user f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"Client connected: z1L62i1yEM4IA-nLAAAD, User: f06dc9f5-f414-444a-8c5f-05255689140b","service":"credora-backend","timestamp":"2025-12-23 10:55:07"}
+{"level":"info","message":"Client disconnected: z1L62i1yEM4IA-nLAAAD, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 10:55:13"}
+{"level":"info","message":"Client disconnected: UVjbeoeZQk9WQYkkAAAB, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 10:55:31"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:55:44"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 10:55:44"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:55:45"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:55:47"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:56:38"}
+{"level":"info","message":"PostgreSQL pool closed","service":"credora-backend","timestamp":"2025-12-23 10:56:38"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 10:56:38"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:56:49"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 10:56:49"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 10:56:49"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 10:56:50"}
+{"ip":"::1","level":"info","message":"GET /health","service":"credora-backend","timestamp":"2025-12-23 10:57:36","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7462"}
+{"ip":"::1","level":"info","message":"GET /health","service":"credora-backend","timestamp":"2025-12-23 10:57:58","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7462"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 11:40:07"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:40:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:40:25","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:40:35","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:40:45","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:40:46","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:40:52","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:41:02","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:41:09","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:41:19","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:41:29","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:41:39","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 11:41:49","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}

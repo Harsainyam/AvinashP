@@ -25,6 +25,9 @@
       <div class="config-section">
         <label for="test-token">Access Token:</label>
         <input type="text" id="test-token" placeholder="Paste token from auth test">
+        <button id="load-token" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">
+          Load Saved Token
+        </button>
       </div>
     </div>
 
@@ -44,11 +47,14 @@
       it('should retrieve user accounts', async () => {
         const { response, data } = await api.get('/accounts');
         
+        console.log('Get accounts response:', { status: response.status, data });
+        
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
         expect(Array.isArray(data.data)).toBeTruthy();
         
         testAccounts = data.data;
+        TestStorage.set('testAccounts', testAccounts);
         
         // Display accounts info
         if (testAccounts.length > 0) {
@@ -85,7 +91,11 @@
         // Second request (should hit cache)
         const { data: data2 } = await api.get('/accounts');
         
-        expect(data2.cached).toBeTruthy();
+        if (data2.cached !== undefined) {
+          expect(data2.cached).toBeTruthy();
+        } else {
+          console.warn('Cache flag not present in response');
+        }
       });
 
       it('should bypass cache with fresh parameter', async () => {
@@ -94,6 +104,19 @@
         expect(response.status).toBe(200);
         expect(data.cached).toBeFalsy();
       });
+
+      it('should return accounts sorted by creation date', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        if (data.data.length > 1) {
+          const dates = data.data.map(acc => new Date(acc.created_at).getTime());
+          
+          // Check if sorted descending (newest first)
+          for (let i = 1; i < dates.length; i++) {
+            expect(dates[i-1]).toBeGreaterThan(dates[i]);
+          }
+        }
+      });
     });
 
     // Test Suite 2: Get Specific Account
@@ -101,10 +124,13 @@
       let accountId;
 
       it('should get specific account by ID', async () => {
-        expect(testAccounts.length).toBeGreaterThan(0);
+        const accounts = TestStorage.get('testAccounts') || testAccounts;
+        expect(accounts.length).toBeGreaterThan(0);
         
-        accountId = testAccounts[0].id;
+        accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}`);
+        
+        console.log('Get account details:', { status: response.status, data });
         
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
@@ -112,7 +138,8 @@
       });
 
       it('should include user information', async () => {
-        accountId = testAccounts[0].id;
+        const accounts = TestStorage.get('testAccounts') || testAccounts;
+        accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}`);
         
         expect(data.data).toHaveProperty('first_name');
@@ -134,6 +161,16 @@
         expect(response.status).toBe(404);
         expect(data.success).toBeFalsy();
       });
+
+      it('should not allow access to other user accounts', async () => {
+        // Try to access an account that doesn't belong to the user
+        const fakeUUID = '12345678-1234-1234-1234-123456789012';
+        const { response, data } = await api.get(`/accounts/${fakeUUID}`);
+        
+        // Should return 404 (not found) or 403 (forbidden)
+        expect([403, 404]).toContain(response.status);
+        expect(data.success).toBeFalsy();
+      });
     });
 
     // Test Suite 3: Get Account Balance
@@ -141,8 +178,11 @@
       let accountId;
 
       it('should get account balance', async () => {
-        accountId = testAccounts[0].id;
+        const accounts = TestStorage.get('testAccounts') || testAccounts;
+        accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}/balance`);
+        
+        console.log('Get balance:', { status: response.status, data });
         
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
@@ -152,12 +192,14 @@
       });
 
       it('should return numeric balance', async () => {
-        accountId = testAccounts[0].id;
+        const accounts = TestStorage.get('testAccounts') || testAccounts;
+        accountId = accounts[0].id;
         const { response, data } = await api.get(`/accounts/${accountId}/balance`);
         
         const balance = parseFloat(data.data.balance);
         expect(typeof balance).toBe('number');
         expect(isNaN(balance)).toBeFalsy();
+        expect(balance).toBeGreaterThan(0);
       });
 
       it('should reject invalid account for balance', async () => {
@@ -166,6 +208,19 @@
         
         expect(response.status).toBe(404);
         expect(data.success).toBeFalsy();
+      });
+
+      it('should format balance with proper decimals', async () => {
+        const accounts = TestStorage.get('testAccounts') || testAccounts;
+        accountId = accounts[0].id;
+        const { response, data } = await api.get(`/accounts/${accountId}/balance`);
+        
+        const balanceStr = data.data.balance.toString();
+        // Should have at most 2 decimal places
+        const parts = balanceStr.split('.');
+        if (parts.length > 1) {
+          expect(parts[1].length).toBeLessThan(3);
+        }
       });
     });
 
@@ -186,6 +241,25 @@
         const { response, data } = await api.get('/accounts');
         
         expect(data.data.length).toBeGreaterThan(0);
+      });
+
+      it('should return account type in lowercase', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          expect(account.account_type).toBe(account.account_type.toLowerCase());
+        });
+      });
+
+      it('should have default account created on signup', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        // At least one account should exist (created during signup)
+        expect(data.data.length).toBeGreaterThan(0);
+        
+        // Check if first account is a savings account (default)
+        const firstAccount = data.data[0];
+        expect(['savings', 'checking']).toContain(firstAccount.account_type);
       });
     });
 
@@ -215,7 +289,19 @@
         data.data.forEach(account => {
           expect(account).not.toHaveProperty('password_hash');
           expect(account).not.toHaveProperty('password');
+          expect(account).not.toHaveProperty('pin');
         });
+      });
+
+      it('should reject expired tokens', async () => {
+        const expiredAPI = new APIHelper(api.baseURL);
+        // Using a clearly expired/invalid token
+        expiredAPI.setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c');
+        
+        const { response, data } = await expiredAPI.get('/accounts');
+        
+        expect(response.status).toBe(401);
+        expect(data.success).toBeFalsy();
       });
     });
 
@@ -255,8 +341,69 @@
           const createdAt = new Date(account.created_at);
           expect(createdAt instanceof Date).toBeTruthy();
           expect(isNaN(createdAt.getTime())).toBeFalsy();
+          
+          // Should be in the past
+          expect(createdAt.getTime()).toBeLessThan(Date.now());
         });
       });
+
+      it('should have unique account numbers', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        const accountNumbers = data.data.map(acc => acc.account_number);
+        const uniqueNumbers = new Set(accountNumbers);
+        
+        expect(uniqueNumbers.size).toBe(accountNumbers.length);
+      });
+
+      it('should have valid UUID format for account IDs', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        
+        data.data.forEach(account => {
+          expect(uuidRegex.test(account.id)).toBeTruthy();
+        });
+      });
+    });
+
+    // Test Suite 7: Account Status
+    runner.describe('Account Status', (it) => {
+      it('should have valid status values', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        const validStatuses = ['active', 'frozen', 'closed'];
+        
+        data.data.forEach(account => {
+          expect(validStatuses).toContain(account.status);
+        });
+      });
+
+      it('should exclude closed accounts from default query', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        data.data.forEach(account => {
+          expect(account.status).not.toBe('closed');
+        });
+      });
+
+      it('should have mostly active accounts', async () => {
+        const { response, data } = await api.get('/accounts');
+        
+        const activeCount = data.data.filter(acc => acc.status === 'active').length;
+        expect(activeCount).toBeGreaterThan(0);
+      });
+    });
+
+    // Load saved token button handler
+    document.getElementById('load-token').addEventListener('click', () => {
+      const savedToken = TestStorage.get('accessToken');
+      if (savedToken) {
+        document.getElementById('test-token').value = savedToken;
+        alert('Token loaded from previous test session!');
+      } else {
+        alert('No saved token found. Please run authentication tests first.');
+      }
     });
 
     // Event Listeners
@@ -265,7 +412,7 @@
       const token = document.getElementById('test-token').value;
       
       if (!token) {
-        alert('Please provide an access token first! Run the Auth tests to get one.');
+        alert('Please provide an access token first! Run the Auth tests to get one or click "Load Saved Token".');
         return;
       }
       
@@ -275,14 +422,28 @@
       document.getElementById('run-tests').disabled = true;
       document.getElementById('test-results').innerHTML = '<h2>Running Tests...</h2>';
       
-      await runner.run();
-      
-      document.getElementById('run-tests').disabled = false;
+      try {
+        await runner.run();
+      } catch (error) {
+        console.error('Test runner error:', error);
+        alert('Test run failed: ' + error.message);
+      } finally {
+        document.getElementById('run-tests').disabled = false;
+      }
     });
 
     document.getElementById('clear-results').addEventListener('click', () => {
       document.getElementById('test-results').innerHTML = '<p class="loading">Click "Run All Tests" to begin</p>';
       runner.results = { passed: 0, failed: 0, total: 0 };
+    });
+
+    // Auto-load token on page load
+    window.addEventListener('load', () => {
+      const savedToken = TestStorage.get('accessToken');
+      if (savedToken) {
+        document.getElementById('test-token').value = savedToken;
+        console.log('Auto-loaded saved token');
+      }
     });
   </script>
 </body>

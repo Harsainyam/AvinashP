@@ -61,7 +61,6 @@
       border-radius: 12px;
       padding: 2rem;
       transition: all 0.3s;
-      cursor: pointer;
     }
 
     .test-suite-card:hover {
@@ -88,7 +87,7 @@
       line-height: 1.6;
     }
 
-    .test-suite-card .btn {
+    .btn {
       width: 100%;
       padding: 0.75rem 1.5rem;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -101,7 +100,7 @@
       transition: all 0.3s;
     }
 
-    .test-suite-card .btn:hover {
+    .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
@@ -193,6 +192,32 @@
         grid-template-columns: 1fr;
       }
     }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.checking {
+      background: #f59e0b;
+    }
+
+    .status-indicator.ready {
+      background: #10b981;
+    }
+
+    .status-indicator.error {
+      background: #ef4444;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
@@ -200,6 +225,11 @@
     <div class="header">
       <h1>🏦 Credora Integration Tests</h1>
       <p>Comprehensive browser-based testing suite for the Credora banking system</p>
+      <div style="margin-top: 1rem;">
+        <span>Backend Status: </span>
+        <span id="backend-status">Checking...</span>
+        <span class="status-indicator checking" id="status-dot"></span>
+      </div>
     </div>
 
     <div class="content">
@@ -208,7 +238,7 @@
           <span class="test-suite-icon">🔐</span>
           <h3>Authentication Tests</h3>
           <p>Test user signup, login, OTP verification, token management, and security features.</p>
-          <button class="btn" onclick="window.open('auth.test.html', '_blank')">
+          <button class="btn" onclick="openTestPage('auth')">
             Run Auth Tests
           </button>
         </div>
@@ -217,7 +247,7 @@
           <span class="test-suite-icon">🏦</span>
           <h3>Account Tests</h3>
           <p>Test account retrieval, balance operations, account types, and data validation.</p>
-          <button class="btn" onclick="window.open('account.test.html', '_blank')">
+          <button class="btn" onclick="openTestPage('account')">
             Run Account Tests
           </button>
         </div>
@@ -226,7 +256,7 @@
           <span class="test-suite-icon">💸</span>
           <h3>Transaction Tests</h3>
           <p>Test money transfers, transaction history, validation, and rate limiting.</p>
-          <button class="btn" onclick="window.open('transaction.test.html', '_blank')">
+          <button class="btn" onclick="openTestPage('transaction')">
             Run Transaction Tests
           </button>
         </div>
@@ -253,8 +283,8 @@
             <div class="code-block">cd backend && npm run dev</div>
           </li>
           <li><strong>Ensure all services are running:</strong>
-            <ul style="margin-top: 0.5rem;">
-              <li>PostgreSQL on port 5432</li>
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+              <li>PostgreSQL on port 5433 (or 5432)</li>
               <li>MongoDB on port 27017</li>
               <li>Redis on port 6379</li>
             </ul>
@@ -294,5 +324,92 @@
       </p>
     </footer>
   </div>
+
+  <script>
+    // Check backend status
+    async function checkBackendStatus() {
+      const statusElement = document.getElementById('backend-status');
+      const dotElement = document.getElementById('status-dot');
+      
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
+        const response = await fetch('http://localhost:5000/health', {
+          method: 'GET',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          mode: 'cors',
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+          const data = await response.json();
+          statusElement.textContent = 'Online ✓';
+          statusElement.style.color = '#10b981';
+          dotElement.className = 'status-indicator ready';
+          console.log('Backend health:', data);
+        } else {
+          statusElement.textContent = `Error (${response.status})`;
+          statusElement.style.color = '#ef4444';
+          dotElement.className = 'status-indicator error';
+        }
+      } catch (error) {
+        console.error('Backend check failed:', error);
+        
+        if (error.name === 'AbortError') {
+          statusElement.textContent = 'Timeout ✗';
+        } else {
+          statusElement.textContent = 'Offline ✗ (Check CORS)';
+        }
+        statusElement.style.color = '#ef4444';
+        dotElement.className = 'status-indicator error';
+        
+        // Add helpful message
+        const helpMsg = document.createElement('div');
+        helpMsg.style.cssText = 'font-size: 0.875rem; margin-top: 0.5rem; color: #f59e0b;';
+        helpMsg.innerHTML = `
+          <details style="cursor: pointer;">
+            <summary>Troubleshooting</summary>
+            <ul style="text-align: left; margin-top: 0.5rem; padding-left: 1.5rem;">
+              <li>Backend running? Run: <code>cd backend && npm run dev</code></li>
+              <li>Check console for CORS errors</li>
+              <li>Verify URL: http://localhost:5000/health</li>
+              <li>Try: <code>curl http://localhost:5000/health</code></li>
+            </ul>
+          </details>
+        `;
+        
+        const existingHelp = document.querySelector('.troubleshooting-help');
+        if (existingHelp) existingHelp.remove();
+        
+        helpMsg.className = 'troubleshooting-help';
+        document.querySelector('.header').appendChild(helpMsg);
+      }
+    }
+
+    function openTestPage(testType) {
+      const width = 1200;
+      const height = 800;
+      const left = (screen.width - width) / 2;
+      const top = (screen.height - height) / 2;
+      
+      window.open(
+        `${testType}.test.html`,
+        `${testType}Tests`,
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+      );
+    }
+
+    // Check status on load
+    checkBackendStatus();
+    
+    // Recheck every 10 seconds
+    setInterval(checkBackendStatus, 10000);
+  </script>
 </body>
 </html>

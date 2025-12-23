@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backend Diagnostics - Credora</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .test-section {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .test-section h3 {
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .result.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 2px solid #10b981;
+    }
+
+    .result.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 2px solid #ef4444;
+    }
+
+    .result.info {
+      background: #dbeafe;
+      color: #1e40af;
+      border: 2px solid #3b82f6;
+    }
+
+    input {
+      padding: 0.5rem 1rem;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      margin-right: 0.5rem;
+      font-size: 0.875rem;
+      width: 300px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    code {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .warning {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      color: #92400e;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔍 Backend Connection Diagnostics</h1>
+      <p>Troubleshoot connection issues between frontend and backend</p>
+    </div>
+
+    <div class="content">
+      <div class="warning">
+        <strong>⚠️ Common Issue:</strong> CORS errors occur when the backend doesn't allow requests from the browser. Make sure your backend has proper CORS configuration.
+      </div>
+
+      <!-- Test 1: Basic Health Check -->
+      <div class="test-section">
+        <h3>1️⃣ Basic Health Check</h3>
+        <p>Tests if the backend /health endpoint is accessible</p>
+        <input type="text" id="health-url" value="http://localhost:5000/health" placeholder="Health endpoint URL">
+        <button onclick="testHealthCheck()">Test Health</button>
+        <div id="health-result"></div>
+      </div>
+
+      <!-- Test 2: CORS Check -->
+      <div class="test-section">
+        <h3>2️⃣ CORS Configuration Check</h3>
+        <p>Checks if CORS headers are properly configured</p>
+        <button onclick="testCORS()">Test CORS</button>
+        <div id="cors-result"></div>
+      </div>
+
+      <!-- Test 3: API Endpoint Check -->
+      <div class="test-section">
+        <h3>3️⃣ API Endpoint Check</h3>
+        <p>Tests if the API base URL is accessible</p>
+        <input type="text" id="api-url" value="http://localhost:5000/api" placeholder="API base URL">
+        <button onclick="testAPI()">Test API</button>
+        <div id="api-result"></div>
+      </div>
+
+      <!-- Test 4: Network Check -->
+      <div class="test-section">
+        <h3>4️⃣ Network Information</h3>
+        <p>Shows browser and network information</p>
+        <button onclick="showNetworkInfo()">Show Info</button>
+        <div id="network-result"></div>
+      </div>
+
+      <!-- Test 5: Backend Console Instructions -->
+      <div class="test-section">
+        <h3>5️⃣ Backend Server Check</h3>
+        <p>Verify your backend server is running correctly:</p>
+        <ol style="margin-left: 1.5rem; margin-top: 1rem; line-height: 1.8;">
+          <li>Open terminal in backend directory</li>
+          <li>Run: <code>npm run dev</code></li>
+          <li>Look for: "🚀 Credora Backend running on port 5000"</li>
+          <li>Test in terminal: <code>curl http://localhost:5000/health</code></li>
+        </ol>
+        <button onclick="showBackendChecklist()">Show Backend Checklist</button>
+        <div id="backend-result"></div>
+      </div>
+
+      <!-- Quick Fix Section -->
+      <div class="test-section">
+        <h3>🔧 Quick Fixes</h3>
+        <button onclick="showQuickFixes()">Show Solutions</button>
+        <div id="fixes-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function testHealthCheck() {
+      const resultDiv = document.getElementById('health-result');
+      const url = document.getElementById('health-url').value;
+      resultDiv.innerHTML = '<div class="result info">Testing... Please wait</div>';
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        const startTime = Date.now();
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          mode: 'cors',
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+        const duration = Date.now() - startTime;
+
+        const data = await response.json();
+        
+        resultDiv.innerHTML = `
+          <div class="result success">
+✅ SUCCESS!
+
+Status: ${response.status} ${response.statusText}
+Response Time: ${duration}ms
+
+Response Data:
+${JSON.stringify(data, null, 2)}
+
+Headers:
+${Array.from(response.headers.entries()).map(([k, v]) => `${k}: ${v}`).join('\n')}
+          </div>
+        `;
+      } catch (error) {
+        let errorMsg = '❌ FAILED!\n\n';
+        
+        if (error.name === 'AbortError') {
+          errorMsg += 'Error: Request timeout (5 seconds)\n';
+          errorMsg += 'Possible causes:\n';
+          errorMsg += '- Backend server not running\n';
+          errorMsg += '- Wrong port number\n';
+          errorMsg += '- Backend is very slow to respond\n';
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMsg += 'Error: Failed to fetch\n';
+          errorMsg += 'Possible causes:\n';
+          errorMsg += '- CORS not configured\n';
+          errorMsg += '- Backend not running\n';
+          errorMsg += '- Network/firewall blocking request\n';
+          errorMsg += '- Wrong URL\n';
+        } else {
+          errorMsg += `Error: ${error.message}\n`;
+        }
+        
+        errorMsg += '\nError Details:\n' + error.stack;
+        
+        resultDiv.innerHTML = `<div class="result error">${errorMsg}</div>`;
+      }
+    }
+
+    async function testCORS() {
+      const resultDiv = document.getElementById('cors-result');
+      resultDiv.innerHTML = '<div class="result info">Testing CORS... Please wait</div>';
+
+      try {
+        const response = await fetch('http://localhost:5000/health', {
+          method: 'OPTIONS',
+          headers: {
+            'Origin': window.location.origin,
+            'Access-Control-Request-Method': 'GET'
+          }
+        });
+
+        const corsHeaders = {
+          'access-control-allow-origin': response.headers.get('access-control-allow-origin'),
+          'access-control-allow-methods': response.headers.get('access-control-allow-methods'),
+          'access-control-allow-headers': response.headers.get('access-control-allow-headers'),
+          'access-control-allow-credentials': response.headers.get('access-control-allow-credentials')
+        };
+
+        let message = '✅ CORS Headers Found:\n\n';
+        
+        for (const [key, value] of Object.entries(corsHeaders)) {
+          if (value) {
+            message += `${key}: ${value}\n`;
+          } else {
+            message += `${key}: ⚠️ NOT SET\n`;
+          }
+        }
+
+        message += '\n📝 Expected CORS Configuration:\n';
+        message += 'access-control-allow-origin: http://localhost:3000 or *\n';
+        message += 'access-control-allow-methods: GET, POST, PUT, DELETE, PATCH\n';
+        message += 'access-control-allow-credentials: true\n';
+
+        if (corsHeaders['access-control-allow-origin']) {
+          resultDiv.innerHTML = `<div class="result success">${message}</div>`;
+        } else {
+          message = '❌ CORS NOT CONFIGURED!\n\n' + message;
+          message += '\n🔧 Fix: Check backend/app.js CORS configuration';
+          resultDiv.innerHTML = `<div class="result error">${message}</div>`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="result error">
+❌ CORS Test Failed!
+
+Error: ${error.message}
+
+This usually means CORS is NOT configured on the backend.
+
+🔧 Fix: Ensure backend/app.js has:
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
+}));
+          </div>
+        `;
+      }
+    }
+
+    async function testAPI() {
+      const resultDiv = document.getElementById('api-result');
+      const url = document.getElementById('api-url').value;
+      resultDiv.innerHTML = '<div class="result info">Testing API... Please wait</div>';
+
+      try {
+        // Try a simple GET request that shouldn't require auth
+        const response = await fetch(`${url}/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            // Intentionally empty to trigger validation error
+          })
+        });
+
+        const data = await response.json();
+
+        resultDiv.innerHTML = `
+          <div class="result ${response.status === 400 ? 'success' : 'info'}">
+✅ API is responding!
+
+Status: ${response.status}
+Expected: 400 (validation error)
+
+Response:
+${JSON.stringify(data, null, 2)}
+
+${response.status === 400 ? '✅ API is working correctly!' : '⚠️ Unexpected status code'}
+          </div>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="result error">
+❌ API Test Failed!
+
+Error: ${error.message}
+
+Check:
+- Backend server running on port 5000
+- API routes properly configured
+- No firewall blocking requests
+          </div>
+        `;
+      }
+    }
+
+    function showNetworkInfo() {
+      const resultDiv = document.getElementById('network-result');
+      
+      const info = {
+        'Current URL': window.location.href,
+        'Origin': window.location.origin,
+        'Protocol': window.location.protocol,
+        'User Agent': navigator.userAgent,
+        'Online': navigator.onLine,
+        'Language': navigator.language,
+        'Platform': navigator.platform,
+        'Cookies Enabled': navigator.cookieEnabled
+      };
+
+      let message = '📊 Browser & Network Information:\n\n';
+      for (const [key, value] of Object.entries(info)) {
+        message += `${key}: ${value}\n`;
+      }
+
+      resultDiv.innerHTML = `<div class="result info">${message}</div>`;
+    }
+
+    function showBackendChecklist() {
+      const resultDiv = document.getElementById('backend-result');
+      
+      resultDiv.innerHTML = `
+        <div class="result info">
+✅ Backend Server Checklist:
+
+1. Terminal Check:
+   cd backend
+   npm run dev
+   
+   Should see:
+   ✅ PostgreSQL connected successfully
+   ✅ MongoDB connected successfully
+   ✅ Redis is ready
+   🚀 Credora Backend running on port 5000
+
+2. Services Check:
+   PostgreSQL: psql -U postgres -d credora_bank
+   MongoDB: mongosh credora_logs
+   Redis: redis-cli ping
+
+3. Port Check:
+   lsof -i :5000  (Mac/Linux)
+   netstat -ano | findstr :5000  (Windows)
+
+4. Health Check:
+   curl http://localhost:5000/health
+   
+   Should return:
+   {"status":"healthy","timestamp":"...","uptime":...}
+
+5. CORS Check in backend/app.js:
+   app.use(cors({
+     origin: 'http://localhost:3000',
+     credentials: true
+   }));
+        </div>
+      `;
+    }
+
+    function showQuickFixes() {
+      const resultDiv = document.getElementById('fixes-result');
+      
+      resultDiv.innerHTML = `
+        <div class="result info">
+🔧 Quick Fixes for Common Issues:
+
+1. Backend Not Starting:
+   - Check PostgreSQL is running
+   - Check MongoDB is running
+   - Check Redis is running
+   - Verify .env file exists
+   - Run: npm install
+
+2. CORS Error:
+   Update backend/app.js:
+   
+   const cors = require('cors');
+   app.use(cors({
+     origin: process.env.CLIENT_URL || 'http://localhost:3000',
+     credentials: true,
+     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+     allowedHeaders: ['Content-Type', 'Authorization']
+   }));
+
+3. Port Already in Use:
+   - Kill process: kill -9 $(lsof -t -i:5000)
+   - Or change port in .env: PORT=5001
+
+4. Database Connection Failed:
+   - Check credentials in .env
+   - Verify database exists
+   - Check service is running
+
+5. Still Not Working:
+   - Clear browser cache
+   - Restart backend server
+   - Check console for errors
+   - Run diagnostic tests above
+        </div>
+      `;
+    }
+
+    // Auto-run health check on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        testHealthCheck();
+      }, 500);
+    });
+  </script>
+</body>
+</html>

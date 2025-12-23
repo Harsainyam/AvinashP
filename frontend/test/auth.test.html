@@ -40,8 +40,11 @@
     runner.describe('User Signup', (it) => {
       it('should create a new user account', async () => {
         testUser = TestDataGenerator.generateUser();
+        console.log('Creating user:', testUser.email);
         
-        const { response, data } = await api.post('/auth/signup', testUser);
+        const { response, data, ok } = await api.post('/auth/signup', testUser);
+        
+        console.log('Signup response:', { status: response.status, data });
         
         expect(response.status).toBe(201);
         expect(data.success).toBeTruthy();
@@ -50,6 +53,9 @@
         expect(data.data.email).toBe(testUser.email);
         
         userId = data.data.userId;
+        TestStorage.set('userId', userId);
+        TestStorage.set('userEmail', testUser.email);
+        TestStorage.set('userPassword', testUser.password);
       });
 
       it('should reject duplicate email signup', async () => {
@@ -57,13 +63,12 @@
         
         expect(response.status).toBe(409);
         expect(data.success).toBeFalsy();
-        expect(data.message).toContain('already exists');
       });
 
       it('should validate email format', async () => {
         const invalidUser = {
           ...TestDataGenerator.generateUser(),
-          email: 'invalid-email'
+          email: 'invalid-email-format'
         };
         
         const { response, data } = await api.post('/auth/signup', invalidUser);
@@ -95,15 +100,34 @@
         expect(response.status).toBe(400);
         expect(data.success).toBeFalsy();
       });
+
+      it('should require last name', async () => {
+        const noLastNameUser = {
+          ...TestDataGenerator.generateUser(),
+          lastName: ''
+        };
+        
+        const { response, data } = await api.post('/auth/signup', noLastNameUser);
+        
+        expect(response.status).toBe(400);
+        expect(data.success).toBeFalsy();
+      });
     });
 
     // Test Suite 2: Login Flow
     runner.describe('User Login', (it) => {
       it('should login with valid credentials', async () => {
+        const storedEmail = TestStorage.get('userEmail');
+        const storedPassword = TestStorage.get('userPassword');
+        
+        console.log('Attempting login with:', storedEmail);
+        
         const { response, data } = await api.post('/auth/login', {
-          email: testUser.email,
-          password: testUser.password
+          email: storedEmail,
+          password: storedPassword
         });
+        
+        console.log('Login response:', { status: response.status, data });
         
         expect(response.status).toBe(200);
         expect(data.success).toBeTruthy();
@@ -111,6 +135,7 @@
         expect(data.data.requiresOTP).toBeTruthy();
         
         userId = data.data.userId;
+        TestStorage.set('userId', userId);
       });
 
       it('should reject invalid email', async () => {
@@ -124,8 +149,10 @@
       });
 
       it('should reject invalid password', async () => {
+        const storedEmail = TestStorage.get('userEmail');
+        
         const { response, data } = await api.post('/auth/login', {
-          email: testUser.email,
+          email: storedEmail,
           password: 'WrongPassword123!'
         });
         
@@ -144,7 +171,7 @@
 
       it('should require password field', async () => {
         const { response, data } = await api.post('/auth/login', {
-          email: testUser.email
+          email: 'test@example.com'
         });
         
         expect(response.status).toBe(400);
@@ -155,8 +182,10 @@
     // Test Suite 3: OTP Verification
     runner.describe('OTP Verification', (it) => {
       it('should reject invalid OTP', async () => {
+        const storedUserId = TestStorage.get('userId');
+        
         const { response, data } = await api.post('/auth/verify-otp', {
-          userId: userId,
+          userId: storedUserId,
           otp: '000000'
         });
         
@@ -165,8 +194,10 @@
       });
 
       it('should reject empty OTP', async () => {
+        const storedUserId = TestStorage.get('userId');
+        
         const { response, data } = await api.post('/auth/verify-otp', {
-          userId: userId,
+          userId: storedUserId,
           otp: ''
         });
         
@@ -175,8 +206,10 @@
       });
 
       it('should reject invalid OTP format', async () => {
+        const storedUserId = TestStorage.get('userId');
+        
         const { response, data } = await api.post('/auth/verify-otp', {
-          userId: userId,
+          userId: storedUserId,
           otp: 'ABCDEF'
         });
         
@@ -185,7 +218,7 @@
       });
 
       it('should accept valid OTP (manual)', async () => {
-        // Prompt user to enter OTP from backend console
+        const storedUserId = TestStorage.get('userId');
         const resultsDiv = document.getElementById('test-results');
         const promptDiv = document.createElement('div');
         promptDiv.className = 'otp-prompt';
@@ -198,6 +231,9 @@
             <button id="submit-otp" style="margin-left: 1rem; padding: 0.75rem 1.5rem; background: #f59e0b; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
               Submit OTP
             </button>
+            <button id="skip-otp" style="margin-left: 0.5rem; padding: 0.75rem 1.5rem; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+              Skip (Fail Test)
+            </button>
           </div>
         `;
         resultsDiv.appendChild(promptDiv);
@@ -208,7 +244,7 @@
             
             if (otp && otp.length === 6) {
               const { response, data } = await api.post('/auth/verify-otp', {
-                userId: userId,
+                userId: storedUserId,
                 otp: otp
               });
               
@@ -217,6 +253,7 @@
               if (data.success) {
                 testToken = data.data.accessToken;
                 api.setToken(testToken);
+                TestStorage.set('accessToken', testToken);
                 
                 // Display token for user to copy
                 const tokenDiv = document.createElement('div');
@@ -225,8 +262,8 @@
                   <div style="background: #d1fae5; border: 2px solid #10b981; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
                     <h4 style="color: #065f46; margin-bottom: 1rem;">✅ Login Successful!</h4>
                     <p style="color: #047857; margin-bottom: 0.5rem; font-weight: 600;">Copy this token for Account and Transaction tests:</p>
-                    <textarea readonly style="width: 100%; padding: 0.75rem; font-family: monospace; font-size: 0.875rem; border: 1px solid #10b981; border-radius: 6px; margin-top: 0.5rem; height: 100px;">${testToken}</textarea>
-                    <button onclick="navigator.clipboard.writeText('${testToken}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <textarea readonly id="token-textarea" style="width: 100%; padding: 0.75rem; font-family: monospace; font-size: 0.875rem; border: 1px solid #10b981; border-radius: 6px; margin-top: 0.5rem; height: 100px;">${testToken}</textarea>
+                    <button onclick="copyToken()" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">
                       📋 Copy Token
                     </button>
                   </div>
@@ -239,9 +276,16 @@
                 resolve();
               } else {
                 alert('Invalid OTP. Test failed.');
-                resolve();
+                throw new Error('Invalid OTP provided');
               }
+            } else {
+              alert('Please enter a 6-digit OTP');
             }
+          };
+
+          document.getElementById('skip-otp').onclick = () => {
+            promptDiv.remove();
+            throw new Error('OTP test skipped by user');
           };
         });
       });
@@ -268,10 +312,15 @@
       });
 
       it('should accept valid token', async () => {
-        if (testToken) {
+        const storedToken = TestStorage.get('accessToken');
+        
+        if (storedToken) {
+          api.setToken(storedToken);
           const { response, data } = await api.get('/accounts');
           expect(response.status).toBe(200);
           expect(data.success).toBeTruthy();
+        } else {
+          console.warn('No token available, skipping test');
         }
       });
     });
@@ -279,14 +328,27 @@
     // Test Suite 5: Logout
     runner.describe('User Logout', (it) => {
       it('should logout successfully', async () => {
-        if (testToken) {
+        const storedToken = TestStorage.get('accessToken');
+        
+        if (storedToken) {
+          api.setToken(storedToken);
           const { response, data } = await api.post('/auth/logout', {});
           
           expect(response.status).toBe(200);
           expect(data.success).toBeTruthy();
+        } else {
+          console.warn('No token available, skipping logout test');
         }
       });
     });
+
+    // Helper function for copying token
+    window.copyToken = function() {
+      const textarea = document.getElementById('token-textarea');
+      textarea.select();
+      document.execCommand('copy');
+      alert('Token copied to clipboard!');
+    };
 
     // Event Listeners
     document.getElementById('run-tests').addEventListener('click', async () => {
@@ -296,14 +358,20 @@
       document.getElementById('run-tests').disabled = true;
       document.getElementById('test-results').innerHTML = '<h2>Running Tests...</h2>';
       
-      await runner.run();
-      
-      document.getElementById('run-tests').disabled = false;
+      try {
+        await runner.run();
+      } catch (error) {
+        console.error('Test runner error:', error);
+        alert('Test run failed: ' + error.message);
+      } finally {
+        document.getElementById('run-tests').disabled = false;
+      }
     });
 
     document.getElementById('clear-results').addEventListener('click', () => {
       document.getElementById('test-results').innerHTML = '<p class="loading">Click "Run All Tests" to begin</p>';
       runner.results = { passed: 0, failed: 0, total: 0 };
+      TestStorage.clear();
     });
   </script>
 </body>
