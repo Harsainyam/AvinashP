@@ -27,18 +27,15 @@ app.use(helmet({
 }));
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, postman)
-    if (!origin) return callback(null, true);
-    
-    // List of allowed origins
     const allowedOrigins = [
       'http://localhost:3000',
       'http://127.0.0.1:3000',
-      'http://localhost:5173', // Vite dev server
-      process.env.CLIENT_URL
+      'http://localhost:5173',
+      process.env.CLIENT_URL,
+      'https://avinashp.onrender.com' // Add your frontend URL
     ].filter(Boolean);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -48,7 +45,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   exposedHeaders: ['Content-Length', 'X-Request-Id'],
-  maxAge: 86400 // 24 hours
+  maxAge: 86400
 }));
 
 // Handle preflight requests for all routes

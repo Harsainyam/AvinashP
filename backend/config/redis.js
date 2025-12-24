@@ -2,12 +2,11 @@ const redis = require('redis');
 const logger = require('../utils/logger');
 
 const redisClient = redis.createClient({
+  url: process.env.REDIS_URL || `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
   socket: {
-    host: process.env.REDIS_HOST || 'localhost',
-    port: process.env.REDIS_PORT || 6379,
-  },
-  password: process.env.REDIS_PASSWORD || undefined,
-  database: process.env.REDIS_DB || 0,
+    tls: process.env.NODE_ENV === 'production',
+    rejectUnauthorized: false
+  }
 });
 
 redisClient.on('connect', () => {
