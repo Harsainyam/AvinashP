@@ -9392,3 +9392,69 @@
 {"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 20:26:42"}
 {"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 20:26:42"}
 {"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 20:26:42"}
+{"level":"info","message":"✅ Redis connected successfully","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"🔴 Redis is ready to accept commands","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"✅ MongoDB connected successfully","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"📊 MongoDB indexes created","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"✅ MongoDB initialized successfully","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"HTTP Server initialized (Development Mode)","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"✅ Socket.IO initialized","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"🚀 Credora Backend running on port 5000","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"📡 Environment: development","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"level":"info","message":"🔒 Protocol: HTTP","service":"credora-backend","timestamp":"2025-12-23 20:27:59"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:10","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"✅ PostgreSQL connected successfully","service":"credora-backend","timestamp":"2025-12-23 20:28:10"}
+{"duration":71,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 20:28:10"}
+{"ip":"::1","level":"info","message":"POST /api/auth/signup","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:46","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":2,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 20:28:46"}
+{"level":"info","message":"OTP generated for user 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:28:47"}
+{"level":"info","message":"OTP for a@gmail.com: 847632","service":"credora-backend","timestamp":"2025-12-23 20:28:47"}
+{"ip":"::1","level":"info","message":"POST /api/auth/verify-otp","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:53","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"OTP verified successfully for user 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"duration":9,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"level":"debug","message":"Cached user profile for 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:53","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"Socket authenticated for user 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"level":"info","message":"Client connected: QkIiCaMBYjuIdonkAAAB, User: 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"duration":12,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:53","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:53","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":7,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"duration":6,"level":"debug","message":"Query executed","rows":0,"service":"credora-backend","timestamp":"2025-12-23 20:28:53"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:28:53","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:29:00","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page cache miss - generating content","service":"credora-backend","timestamp":"2025-12-23 20:29:00"}
+{"level":"info","message":"About Us page cached in Redis with TTL 3600s","service":"credora-backend","timestamp":"2025-12-23 20:29:00"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:29:00","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:29:00"}
+{"level":"info","message":"Client disconnected: QkIiCaMBYjuIdonkAAAB, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 20:30:00"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:00","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:30:00"}
+{"level":"info","message":"Socket authenticated for user 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:30:00"}
+{"level":"info","message":"Client connected: ZMDLvZyFAvEgo2pNAAAE, User: 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:30:00"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:00","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:30:00"}
+{"level":"info","message":"Client disconnected: ZMDLvZyFAvEgo2pNAAAE, Reason: transport close","service":"credora-backend","timestamp":"2025-12-23 20:30:36"}
+{"level":"info","message":"Socket authenticated for user 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:30:36"}
+{"level":"info","message":"Client connected: ioIInZG5vxlbKqbkAAAH, User: 618f0818-3d5b-481e-80aa-d9312ee875a8","service":"credora-backend","timestamp":"2025-12-23 20:30:36"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:36","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:30:36"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:36","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:30:36"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:42","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":7,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 20:30:42"}
+{"ip":"::1","level":"info","message":"GET /api/accounts","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:42","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:42","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"duration":10,"level":"debug","message":"Query executed","rows":1,"service":"credora-backend","timestamp":"2025-12-23 20:30:42"}
+{"ip":"::1","level":"info","message":"GET /api/transactions","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:42","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:45","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:30:45"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:30:45","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:30:45"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:31:00","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:31:00"}
+{"ip":"::1","level":"info","message":"GET /health","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 20:31:15","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"POST /api/auth/login","origin":"http://127.0.0.1:3000","service":"credora-backend","timestamp":"2025-12-23 20:31:24","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /api/about","origin":"http://localhost:3000","service":"credora-backend","timestamp":"2025-12-23 20:39:19","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 OPR/124.0.0.0"}
+{"level":"info","message":"About Us page served from Redis cache","service":"credora-backend","timestamp":"2025-12-23 20:39:19"}
+{"level":"info","message":"Closing PostgreSQL pool...","service":"credora-backend","timestamp":"2025-12-23 20:40:22"}
